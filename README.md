@@ -1,2 +1,0 @@
-# ogoByGloria
-webshop
