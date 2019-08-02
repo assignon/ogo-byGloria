@@ -5,7 +5,12 @@ import store from "./store";
 import "./registerServiceWorker";
 import vuetify from './plugins/vuetify';
 
+import VAnimateCss from 'v-animate-css';
+import Vuex from 'vuex'
+
 Vue.config.productionTip = false;
+Vue.use(VAnimateCss);
+Vue.use(Vuex);
 
 new Vue({
   router,
