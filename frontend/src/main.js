@@ -1,16 +1,24 @@
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 import vuetify from './plugins/vuetify';
-
 import VAnimateCss from 'v-animate-css';
 import Vuex from 'vuex'
+import Axios from 'axios'
 
 Vue.config.productionTip = false;
 Vue.use(VAnimateCss);
 Vue.use(Vuex);
+
+Axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+Axios.defaults.xsrfCookieName = "XCSRF-TOKEN";
+Axios.defaults.withCredentials = true
+
+Vue.prototype.$axios = Axios
 
 new Vue({
   router,
