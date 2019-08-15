@@ -1,24 +1,28 @@
 <template>
     <div class="navbar">
+        <!-- <div class="scroll-menu">
+
+        </div> -->
         <v-layout column justify-center align-center class="nav-layout">
             <v-flex xs12 sm12 m12 lg12 class="social-flex">
-                <div class="socials-cotainer">
+                <!-- <div class="socials-cotainer">
                     <a href="" class="social-link ma-2" target="_blank"><v-icon medium class="social-icon">fab fa-facebook</v-icon></a>
                     <a href="" class="social-link ma-2" target="_blank"><v-icon medium class="social-icon">fab fa-instagram</v-icon></a>
                     <a href="" class="social-link ma-2" target="_blank"><v-icon medium class="social-icon">fab fa-twitter</v-icon></a>
-                </div>
-                <div class="sign ml-3 mr-3">
+                </div> -->
+                <div class="sign ml-3 mr-3 mt-3">
                     <p class="signup pl-4 pr-4 pt-1 pb-1 mr-2 font-weight-bold">
                         S'INSCRIR
                     </p>
                     <p class="signin pl-4 pr-4 pt-1 pb-1 font-weight-bold">SE CONNECTER</p>
+                    <a href="" class="social-link ma-2 pl-3" style="text-decoration: none" target="_blank"><v-icon medium class="social-icon">fab fa-instagram</v-icon></a>
                     <!-- <v-btn medium depressed color="#FfCC80" class="signup mr-3">S'INSCRIRE</v-btn>
                     <v-btn medium  outlined  color="" class="signin">SE CONECTER</v-btn> -->
                 </div>
             </v-flex>
 
             <v-flex xs12 sm12 m12 lg12 class="logo-flex">
-                <h1 class="display-2 font-weight-bold">Ogo By Gloria</h1>
+                <h1 class="display-2 font-weight-bold" style="color: #FB8C00;font-style: italic;">Ogo By Gloria</h1>
                 <div class="shopping-container">
                     <v-badge overlap color="#FFA726" class="shopping-badge">
                         <template v-slot:badge>0</template>
@@ -28,45 +32,54 @@
             </v-flex>
 
             <v-flex xs12 sm12 m12 lg12 class="menu-flex">
-                <v-bottom-navigation :value="activeBtn"
+                <!-- <v-bottom-navigation :value="activeBtn"
                  color="#FfCC80"
                  style="box-shadow: none;color: #FfCC80; background-color: transparent"
                  class="btm-nav"
-                 horizontal>
-                    <router-link to="" style="text-decoration: none;">
-                        <v-btn :ripple="false" depressed>
+                 horizontal> -->
+                    <router-link to="/" style="text-decoration: none;">
+                        <div class="menu-item">
                             <span>Accueille</span>
                             <v-icon medium
                             style=""
                             class="">home</v-icon>
-                        </v-btn>
+                        </div>
                     </router-link>
 
-                    <router-link to="" style="text-decoration: none;">
-                        <v-btn :ripple="false" depressed>
+                    <router-link to="/bag" style="text-decoration: none;">
+                        <div class="menu-item">
                             <span>Sacs</span>
                             <v-icon
                             style="font-size: 20px;"
                             class="">fas fa-shopping-bag</v-icon>
-                        </v-btn>
+                        </div>
                     </router-link>
 
-                    <router-link to="" style="text-decoration: none;">
-                        <v-btn :ripple="false" depressed>
+                    <router-link to="/accessory" style="text-decoration: none;">
+                        <div class="menu-item">
                             <span>Accessoires</span>
                             <v-icon 
                             style="font-size: 20px;"
                             class=""></v-icon>
-                        </v-btn>
+                        </div>
                     </router-link>
 
-                    <router-link to="" style="text-decoration: none;">
-                        <v-btn :ripple="false" depressed>
+                    <router-link to="/about" style="text-decoration: none;">
+                        <div class="menu-item">
+                            <span>A propos</span>
+                            <v-icon 
+                            style="font-size: 20px;"
+                            class="">fas fa-address-card</v-icon>
+                        </div>
+                    </router-link>
+
+                    <router-link to="/contact" style="text-decoration: none;">
+                        <div class="menu-item">
                             <span>Contact</span>
                             <v-icon
                             style="font-size: 20px;"
                             class="">fas fa-envelope</v-icon>
-                        </v-btn>
+                        </div>
                     </router-link>
 
                     <!-- <router-link to="" style="text-decoration: none;">
@@ -77,7 +90,7 @@
                             class=""></v-icon>
                         </v-btn>
                     </router-link> -->
-                 </v-bottom-navigation>
+                 <!-- </v-bottom-navigation> -->
             </v-flex>
         </v-layout>
     </div>
@@ -96,10 +109,16 @@ export default {
     },
 
     created() {
-
+        
+        // window.addEventListener('scroll', this.menuScrollAnimation)
+        
     },
 
     methods: {
+
+        menuScrollAnimation(){
+            console.log('scroll:',document.documentElement.scrollTop);
+        }
 
     }
 }
@@ -161,7 +180,7 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
@@ -220,23 +239,42 @@ export default {
 .menu-flex{
     width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;
 }
 
-.menu-flex .btm-nav{
-    width: 70%;
+.menu-item{
+    width: 100%;
+    height: 100%;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
+    margin-left: 20px;
+    margin-right: 20px
 }
 
-.menu-flex .btm-nav span{
+.menu-item .v-icon{
+    color: black;
+}
+
+.menu-flex .menu-item span{
     font-size: 16px;
-    /* color: black; */
+    color: black;
     text-align: center;
     position: relative;
-    right: 10px;
+    left: 5px;
+    font-weight: bold;
+}
+
+.menu-flex .menu-item:hover span{
+    color: #FfCC80;
+}
+
+.menu-flex .menu-item:hover .v-icon{
+    color: #FfCC80;
 }
     
 </style>

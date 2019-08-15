@@ -14,9 +14,50 @@
       </v-carousel-item>
   </v-carousel>
 
-  <div class="products">
+    <!-- <Product v-for="(product, i) in this.$store.state.allProducts" :key="i"
+      :productImage = productImage
+      productName = product.fields.product_name
+      productPrice = product.fields.product_price
+    /> -->
 
-  </div>
+  <v-layout row wrap justify-center align-center class="product-container">
+    <v-flex xs12 sm6 md3 lg3 class="product-flex mt-5" v-for="(product, i) in this.$store.state.allProducts" :key="i">
+      <div class="product">
+        <div class="product-src" :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${product.fields.product_image})`}" @mouseover="displayIcons()" @mouseout="hideIcons()">
+          <v-tooltip left color="#000">
+            <template v-slot:activator="{ on }">
+              <div v-on="on" class="icon-container animated"><v-icon>fas fa-cart-plus</v-icon></div>
+            </template>
+            <span>Ajouter au panier</span>
+          </v-tooltip>
+
+          <v-tooltip left color="#000">
+            <template v-slot:activator="{ on }">
+              <div v-on="on"  class="icon-container animated"><v-icon>fas fa-share-alt</v-icon></div>
+            </template>
+            <span>partager</span>
+          </v-tooltip>
+
+          <v-tooltip left color="#000">
+            <template v-slot:activator="{ on }">
+              <div v-on="on"  class="icon-container animated"><v-icon>fas fa-heart</v-icon></div>
+            </template>
+            <span>Likes: </span>
+          </v-tooltip>
+
+           <v-tooltip left color="#000">
+            <template v-slot:activator="{ on }">
+              <div v-on="on"  class="icon-container animated"><v-icon>fas fa-eye</v-icon></div>
+            </template>
+            <span>Apercu rapide</span>
+          </v-tooltip>
+          
+        </div> 
+        <p class="mt-2">{{product.fields.product_name}}</p>
+        <p class="font-weight-bold">{{product.fields.product_price}},00€</p>
+      </div>
+    </v-flex>
+  </v-layout>
 
   </div>
 
@@ -24,9 +65,12 @@
 
 <script>
 // import HelloWorld from '../components/HelloWorld';
+import Product from '../components/layouts/Product';
 
 export default {
+
   components: {
+    'Product': Product
   },
 
   data() {
@@ -48,29 +92,65 @@ export default {
   },
 
   created(){
+
     this.getProducts()
+    
   },
 
   methods: {
 
     getProducts() {
 
-      this.$axios.get(`${this.$store.state.HOST}/product/products/`, {
+      let self = this
+      this.$axios.get(`${this.$store.state.HOST}/product/all_products/`, {
 
       }).then(response => {
-        console.log(response.data);
-        
+
+        if(self.$store.state.allProducts.length === 0){
+          response.data.forEach(product => {
+            self.$store.commit('storeproducts', product)
+          });
+        }
+  
       }).catch(err => {
         console.log(err)
       })
 
+    },
+
+    displayIcons() {
+
+      let currentProduct = event.currentTarget.children
+      let iconContainer = document.querySelectorAll('.icon-container')
+      
+      for(let i=0; i<currentProduct.length; i++){
+        currentProduct[i].style.display = 'flex'
+        currentProduct[i].classList.remove('bounceOut')
+        currentProduct[i].classList.add('bounceIn')
+        currentProduct[i].style.animationDelay = `${i/20}s`
+      }
+
+    },
+
+    hideIcons (){
+
+      let currentProduct = event.currentTarget.children
+      
+      for(let i=0; i<currentProduct.length; i++){
+        currentProduct[i].classList.remove('bounceIn')
+        currentProduct[i].classList.add('bounceOut')
+        currentProduct[i].style.animationDelay = `${i/100}s`
+      }
+
+      
     }
 
   }
 
-};
+}
 </script>
 
+<style scoped rel="stylesheet" type="text/css" src="../styles/productLayout.css"></style>
 <style scoped>
 
 .home-core{
@@ -80,7 +160,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 200px;
+  margin-bottom: 50px;
+  z-index: 1;
 }
 
 .home-core .home-slider{

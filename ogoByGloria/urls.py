@@ -22,7 +22,6 @@ from django.views import defaults as default_views
 # from django.contrib.auth.views import logout
 from .router import router
 from django.contrib import admin
-from django.urls import path
 
 urlpatterns = [
 

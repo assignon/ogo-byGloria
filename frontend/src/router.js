@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Bag from "./views/Bag.vue";
+import Accessory from "./views/Accessory.vue";
 
 Vue.use(Router);
 
@@ -13,6 +15,21 @@ export default new Router({
       name: "home",
       component: Home
     },
+    {
+      path: "/bag",
+      name: "bag",
+      component: Bag
+    },
+    {
+      path: "/accessory",
+      name: "accessory",
+      component: Accessory
+    },
+    // {
+    //   path: "/contact",
+    //   name: "contact",
+    //   component: Contact
+    // },
     {
       path: "/about",
       name: "about",

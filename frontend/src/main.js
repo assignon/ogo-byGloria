@@ -9,6 +9,9 @@ import vuetify from './plugins/vuetify';
 import VAnimateCss from 'v-animate-css';
 import Vuex from 'vuex'
 import Axios from 'axios'
+//Aos imports
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 Vue.config.productionTip = false;
 Vue.use(VAnimateCss);
@@ -21,6 +24,9 @@ Axios.defaults.withCredentials = true
 Vue.prototype.$axios = Axios
 
 new Vue({
+  created() {
+    AOS.init();
+  },
   router,
   store,
   vuetify,
