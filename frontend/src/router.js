@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Bag from "./views/Bag.vue";
 import Accessory from "./views/Accessory.vue";
+import Product from "./views/ProductDescription.vue";
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
       path: "/accessory",
       name: "accessory",
       component: Accessory
+    },
+    {
+      path: "/product/:id",
+      name: "product_description",
+      component: Product
     },
     // {
     //   path: "/contact",

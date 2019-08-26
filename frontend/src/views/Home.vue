@@ -22,40 +22,46 @@
 
   <v-layout row wrap justify-center align-center class="product-container">
     <v-flex xs12 sm6 md3 lg3 class="product-flex mt-5" v-for="(product, i) in this.$store.state.allProducts" :key="i">
-      <div class="product">
-        <div class="product-src" :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${product.fields.product_image})`}" @mouseover="displayIcons()" @mouseout="hideIcons()">
+      <Product
+        :productImage =product.fields.product_image
+        :productName =product.fields.product_name
+        :productPrice =product.fields.product_price
+        :productId =product.pk
+      />
+      <!-- <div class="product">
+        <div class="product-src" :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${product.fields.product_image})`}" @mouseover="$store.commit('displayIcons')" @mouseout="$store.commit('hideIcons')">
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on" class="icon-container animated"><v-icon>fas fa-cart-plus</v-icon></div>
+              <div v-on="on" :id="product.pk" class="icon-container animated"><v-icon>fas fa-cart-plus</v-icon></div>
             </template>
             <span>Ajouter au panier</span>
           </v-tooltip>
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on"  class="icon-container animated"><v-icon>fas fa-share-alt</v-icon></div>
+              <div v-on="on" :id="product.pk" @click="$router.push(`/product/${product.pk}`), $store.commit('productDescription', $route.params.id), $store.commit('relatedProduct', $route.params.id)" class="icon-container animated"><v-icon>fas fa-eye</v-icon></div>
+            </template>
+            <span>Apercu rapide</span>
+          </v-tooltip>
+
+          <v-tooltip left color="#000">
+            <template v-slot:activator="{ on }">
+              <div v-on="on" :id="product.pk" class="icon-container animated"><v-icon>fas fa-share-alt</v-icon></div>
             </template>
             <span>partager</span>
           </v-tooltip>
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on"  class="icon-container animated"><v-icon>fas fa-heart</v-icon></div>
+              <div v-on="on" :id="product.pk"class="icon-container animated"><v-icon>fas fa-heart</v-icon></div>
             </template>
             <span>Likes: </span>
-          </v-tooltip>
-
-           <v-tooltip left color="#000">
-            <template v-slot:activator="{ on }">
-              <div v-on="on"  class="icon-container animated"><v-icon>fas fa-eye</v-icon></div>
-            </template>
-            <span>Apercu rapide</span>
           </v-tooltip>
           
         </div> 
         <p class="mt-2">{{product.fields.product_name}}</p>
         <p class="font-weight-bold">{{product.fields.product_price}},00€</p>
-      </div>
+      </div> -->
     </v-flex>
   </v-layout>
 
@@ -64,7 +70,6 @@
 </template>
 
 <script>
-// import HelloWorld from '../components/HelloWorld';
 import Product from '../components/layouts/Product';
 
 export default {
@@ -110,6 +115,7 @@ export default {
           response.data.forEach(product => {
             self.$store.commit('storeproducts', product)
           });
+          
         }
   
       }).catch(err => {
@@ -117,33 +123,7 @@ export default {
       })
 
     },
-
-    displayIcons() {
-
-      let currentProduct = event.currentTarget.children
-      let iconContainer = document.querySelectorAll('.icon-container')
-      
-      for(let i=0; i<currentProduct.length; i++){
-        currentProduct[i].style.display = 'flex'
-        currentProduct[i].classList.remove('bounceOut')
-        currentProduct[i].classList.add('bounceIn')
-        currentProduct[i].style.animationDelay = `${i/20}s`
-      }
-
-    },
-
-    hideIcons (){
-
-      let currentProduct = event.currentTarget.children
-      
-      for(let i=0; i<currentProduct.length; i++){
-        currentProduct[i].classList.remove('bounceIn')
-        currentProduct[i].classList.add('bounceOut')
-        currentProduct[i].style.animationDelay = `${i/100}s`
-      }
-
-      
-    }
+    test(){alert()}
 
   }
 

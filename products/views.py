@@ -71,6 +71,23 @@ class Product_view(viewsets.ModelViewSet):
         data = serializers.serialize("json", all_accessories, fields=('id', 'product_name', 'product_image', 'product_price', 'likes', 'posted_on'))
         return Response(json.loads(data))
 
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def product_description(self, request):
+        product_id = request.query_params.get('productId')
+        prodct_desc = self.get_queryset().get(id=product_id)
+        serializer = self.get_serializer_class()(prodct_desc)
+        return Response(serializer.data)
+
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def related_product(self, request):
+        product_id = request.query_params.get('productId')
+        product_type = Product.objects.get(pk=product_id).product_type
+        relatedproduct = Product.objects.exclude(pk=product_id).filter(product_type=product_type)
+        data = serializers.serialize('json', relatedproduct, fields=('id', 'product_name', 'product_image', 'product_price', 'likes', 'posted_on'))
+        return Response(json.loads(data))
+
 
 
 # def all_product(request):

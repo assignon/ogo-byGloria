@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import router from "./router";
 
 Vue.use(Vuex);
 
@@ -14,7 +15,9 @@ export default new Vuex.Store({
       ":" +
       window.location.port,
     MEDIA_ROOT: "http://127.0.0.1:8000/media",
-    allProducts: []
+    allProducts: [],
+    viewedProduct: undefined,
+    relatedProduct: []
   },
 
   mutations: {
@@ -22,26 +25,44 @@ export default new Vuex.Store({
       state.allProducts.push(data);
     },
 
-    displayIcons() {
-      let currentProduct = event.currentTarget.children;
-      let iconContainer = document.querySelectorAll(".icon-container");
-
-      for (let i = 0; i < currentProduct.length; i++) {
-        currentProduct[i].style.display = "flex";
-        currentProduct[i].classList.remove("bounceOut");
-        currentProduct[i].classList.add("bounceIn");
-        currentProduct[i].style.animationDelay = `${i / 20}s`;
-      }
+    productDescription(state, productId) {
+      // let currentProduct = event.currentTarget.id;
+      let currentProduct = productId;
+      axios
+        .get(`${state.HOST}/product/product_description/`, {
+          params: {
+            productId: currentProduct
+          }
+        })
+        .then(response => {
+          state.viewedProduct = response.data;
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
-    hideIcons() {
-      let currentProduct = event.currentTarget.children;
-
-      for (let i = 0; i < currentProduct.length; i++) {
-        currentProduct[i].classList.remove("bounceIn");
-        currentProduct[i].classList.add("bounceOut");
-        currentProduct[i].style.animationDelay = `${i / 100}s`;
-      }
+    relatedProduct(state, productId) {
+      let self = this;
+      axios
+        .get(`${state.HOST}/product/related_product/`, {
+          params: {
+            productId: productId
+          }
+        })
+        .then(response => {
+          if (state.relatedProduct.length == 0) {
+            response.data.forEach(item => {
+              state.relatedProduct.push(item);
+            })
+            // console.log(state.relatedProduct);
+          }
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
 
