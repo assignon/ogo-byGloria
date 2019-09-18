@@ -51,7 +51,9 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'products'
+    'products',
+    'cart',
+    'account'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -86,6 +88,8 @@ TEMPLATES = [
     },
 ]
 
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
 WSGI_APPLICATION = 'ogoByGloria.wsgi.application'
 
 
@@ -108,6 +112,13 @@ DATABASES = {
     }
 }
 
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

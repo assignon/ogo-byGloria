@@ -1,6 +1,6 @@
 <template>
 
-  <div class="home-core mt-5">
+  <div class="home-core">
 
     <v-carousel cycle hide-delimiter-background hide-arrows-background show-arrows-on-hover interval=5000 height=500 class="home-slider">
       <v-carousel-item
@@ -102,6 +102,10 @@ export default {
     
   },
 
+  mounted(){
+    this.$store.commit('showMenus')
+  },
+
   methods: {
 
     getProducts() {
@@ -136,6 +140,7 @@ export default {
 .home-core{
   width: 100%;
   height: auto;
+  min-height: 52vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

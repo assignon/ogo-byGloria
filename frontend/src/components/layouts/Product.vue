@@ -3,28 +3,32 @@
         <div class="product-src" :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${productImage})`}" @mouseover="displayIcons()" @mouseout="hideIcons()">
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on" :id="productId" class="icon-container animated"><v-icon>fas fa-cart-plus</v-icon></div>
+              <div v-on="on" :id="productId" @click="addtoCart(productName+'-'+productId)" class="icon-container animated"><v-icon>fas fa-cart-plus</v-icon></div>
             </template>
             <span>Ajouter au panier</span>
           </v-tooltip>
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-             <div v-on="on" :id="productId" @click="$router.push(`/product/${productId}`), $store.commit('productDescription', $route.params.id), $store.commit('relatedProduct', $route.params.id)" class="icon-container animated"><v-icon>fas fa-eye</v-icon></div>
+             <div v-on="on" :id="productId" @click="$router.push(`/product/${productName}-${productId}`), $store.commit('productDescription', $route.params.id), $store.commit('relatedProduct', $route.params.id)" class="icon-container animated"><v-icon>fas fa-eye</v-icon></div>
             </template>
             <span>Apercu rapide</span>
           </v-tooltip>
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on" :id="productId" class="icon-container animated"><v-icon>fas fa-share-alt</v-icon></div>
+              <div v-on="on" :id="productId" @mouseover="showSocials()" @mouseout="$store.commit('hideSocials', 'loginModal')" class="icon-container share-container animated">
+                <div class="socials animated"><a href="" target="_blank"><v-icon>fab fa-instagram</v-icon></a></div>
+                <div class="socials ma-3 animated"><a href="" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a></div>
+                <div><v-icon>fas fa-share-alt</v-icon></div>
+              </div>
             </template>
             <span>partager</span>
           </v-tooltip>
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on" :id="productId" class="icon-container animated"><v-icon>fas fa-heart</v-icon></div>
+              <div v-on="on" :id="productId" @click="likeProduct()" class="icon-container animated"><v-icon>fas fa-heart</v-icon></div>
             </template>
             <span>Likes: </span>
           </v-tooltip>
@@ -89,9 +93,62 @@ export default {
         currentProduct[i].style.animationDelay = `${i/100}s`
       }
       
+    },
+
+    addtoCart(productId){
+      if(this.$session.get('auth')){
+          $store.commit('addToCart', {productId:productId, quantity: 1, userId: this.$session.get('userId')})
+      }else{
+          let generatedStr = btoa(Math.random()).substring(0,25)
+          let generatedNum = Math.floor(Math.random() * 16) + 5
+          let generatedId = generatedNum+generatedStr
+          if(!this.$session.has('shoppingSession')){
+              this.$session.set('shoppingSession', generatedId)
+          }
+          this.$store.state.shoppingId = this.$session.get('shoppingSession')
+          this.$store.commit('addToCart', {productId:productId, quantity: 1, userId: this.$session.get('shoppingSession')})
+      }
+    },
+
+    likeProduct(){
+      if(this.$session.get('auth')){
+        this.$store.commit('addLike')
+      }else{
+        this.$store.commit('showModal', 'loginModal')
+      }
+    },
+
+    showSocials(){
+      let socials = document.querySelectorAll('.share-container .socials')
+      for (let i = 0; i < socials.length; i++) {
+        socials[i].style.display = 'flex'
+        // socials[i].classList.remove('bounceOut')
+        // socials[i].style.animationDelay = i*200
+
+        // setTimeout(function(){
+        //   socials[i].classList.add('bounceIn')
+        // }, 100)
+      }
+    },
+
+    hideSocials(){
+      let socials = document.querySelectorAll('.share-container .socials')
+      for (let i = 0; i < socials.length; i++) {
+        // socials[i].classList.remove('bounceIn')
+        // socials[i].style.animationDelay = i*200
+        socials[i].style.display = 'none'
+
+        // setTimeout(function(){
+        //   socials[i].classList.add('bounceOut')
+        // }, 100)
+
+        // setTimeout(function(){
+        //   socials[i].style.display = 'none'
+        // }, 500)
+      }
     }
 
-    }
+  }
 }
 </script>
 
@@ -134,7 +191,43 @@ export default {
     display: none;
 }
 
-.icon-container:hover .v-icon {
+.share-container{
+  width: auto;
+  border-radius:50px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* padding-left: 5px;
+  padding-right: 5px; */
+}
+
+.share-container div{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  /* margin: 5px; */
+  border: 1px solid #EEEEEE;
+  /* background-color: #F5F5F5; */
+}
+
+.share-container div a{
+  text-decoration: none;
+}
+
+.icon-container .v-icon{
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+}
+
+.share-container .socials{
+  display: none;
+}
+
+.icon-container .v-icon:hover {
     transform: scale(1.1, 1.1);
     color: #FFCC80;
 }

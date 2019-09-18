@@ -21,12 +21,20 @@
                     </div>
                     <div class="detail-social-container">
                         <div class="product-detail">
-                            <div class="add-more">
-                                <v-btn depressed color="#FFCC80"><v-icon small color="white" class="minus-product">fas fa-minus</v-icon></v-btn>
+                            <!-- <div class="add-more">
+                                <v-btn depressed color="#FFCC80"><v-icon small color="white" class="minus-product" @click="productQuantity('-')">fas fa-minus</v-icon></v-btn>
                                 <p class="quantity" v-model="productQty">{{productQty}}</p>
-                                <v-btn depressed small  color="#FFCC80"><v-icon small color="white">fas fa-plus</v-icon></v-btn>
-                            </div>
-                            <v-btn depressed class="add-to-card font-weight-bold white--text" color="#FFCC80"><v-icon class="plus-product" left color="white" style="font-size: 20px;text-align: center;">fas fa-shopping-basket</v-icon>AJOUTER AU PANIER</v-btn>
+                                <v-btn depressed small  color="#FFCC80"><v-icon small color="white" @click="productQuantity('+')">fas fa-plus</v-icon></v-btn>
+                            </div> -->
+                            <ProductQtyCtrl :productQty=productQty />
+                            <v-btn depressed 
+                              class="add-to-card font-weight-bold white--text" 
+                              color="#FFCC80" 
+                              @click="addtoCart()"
+                            >
+                                <v-icon class="plus-product" left color="white" style="font-size: 20px;text-align: center;">fas fa-shopping-basket</v-icon>
+                                AJOUTER AU PANIER
+                            </v-btn>
                             <!-- <div class="likes pl-1 pr-1">
                                 <v-icon>fas fa-heart</v-icon>
                                 <v-divider inset vertical class="like-divider"></v-divider>
@@ -44,7 +52,7 @@
                             </div>
 
                             <div class="likes pl-1 pr-1">
-                                <v-icon>fas fa-heart</v-icon>
+                                <v-icon @click="$session.get('auth') ? $store.commit('addLike') : $store.commit('showModal', 'loginModal')">fas fa-heart</v-icon>
                                 <v-divider inset vertical class="like-divider"></v-divider>
                                 <span>{{$store.state.viewedProduct.likes}}</span>
                             </div>
@@ -120,12 +128,14 @@
 
 <script>
 import Product from '../components/layouts/Product';
+import ProductQtyCtrl from '../components/layouts/ProductQtyCtrl';
 export default {
     
     name: 'productDescription',
 
     components: {
-        'Product': Product
+        'Product': Product,
+        'ProductQtyCtrl': ProductQtyCtrl
     },
 
     data() {
@@ -146,7 +156,40 @@ export default {
 
     },
 
+    mounted(){
+        this.$store.commit('showMenus')
+    },
+
     methods: {
+
+        // productQuantity(qty){
+        //     if(this.productQty >= 1){
+        //         if(qty == '+'){
+        //             this.productQty += 1
+        //         }else if(qty == '-'){
+        //             if(this.productQty > 1){
+        //                 this.productQty -= 1
+        //             }
+        //         }
+        //     }else{
+        //         this.productQty = 1
+        //     }
+        // },
+
+        addtoCart(){
+            if(this.$session.get('auth')){
+                $store.commit('addToCart', {productId:this.$route.params.id, quantity: this.productQty, userId: this.$store.state.userId})
+            }else{
+                let generatedStr = btoa(Math.random()).substring(0,25)
+                let generatedNum = Math.floor(Math.random() * 16) + 5
+                let generatedId = generatedNum+generatedStr
+                if(!this.$session.has('shoppingSession')){
+                    this.$session.set('shoppingSession', generatedId)
+                }
+                this.$store.state.shoppingId = this.$session.get('shoppingSession')
+                this.$store.commit('addToCart', {productId:this.$route.params.id, quantity: this.productQty, userId: this.$store.state.shoppingId})
+            }
+        }
 
     }
 }
@@ -160,9 +203,9 @@ export default {
         justify-content: center;
         align-items: center;
         width: 100%;
-        min-height: 80vh;
+        min-height: 52vh;
         height: auto;
-        margin-top: 30px;
+        margin-bottom: 30px;
     }
 
     .desc-layout{
@@ -255,7 +298,7 @@ export default {
         align-items: center;
     }
 
-    .add-more{
+    /* .add-more{
         width: auto;
         height: auto;
         display: flex;
@@ -286,7 +329,7 @@ export default {
     }
 
     .add-more .v-btn .v-icon{
-    }
+    } */
 
     .add-to-card{
         width: auto;

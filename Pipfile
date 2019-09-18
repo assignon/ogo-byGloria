@@ -9,6 +9,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 pillow = "*"
 django-environ = "*"
+python-memcached = "*"
 
 [dev-packages]
 "autopep8" = "*"

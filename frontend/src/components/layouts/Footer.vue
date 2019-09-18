@@ -46,7 +46,6 @@ export default {
         background-color: #333333;
         padding-top: 40px;
         padding-bottom: 40px;
-        margin-top: 50px;
     }
 
     .footer-layout{

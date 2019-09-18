@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Bag from "./views/Bag.vue";
 import Accessory from "./views/Accessory.vue";
 import Product from "./views/ProductDescription.vue";
+import Signup from "./views/account/Signup.vue";
 
 Vue.use(Router);
 
@@ -44,6 +45,12 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
+    },
+
+    {
+      path: "/signup",
+      name: "signup",
+      component: Signup
     }
   ]
 });

@@ -26,8 +26,6 @@ from rest_framework.status import (
 )
 
 from .serializers import Product_serializer
-from django.shortcuts import render
-
 from products.models import Product
 # Create your views here.
 
@@ -75,8 +73,8 @@ class Product_view(viewsets.ModelViewSet):
     @action(methods=['get'], detail=False)
     def product_description(self, request):
         product_id = request.query_params.get('productId')
-        prodct_desc = self.get_queryset().get(id=product_id)
-        serializer = self.get_serializer_class()(prodct_desc)
+        product_desc = self.get_queryset().get(id=product_id)
+        serializer = self.get_serializer_class()(product_desc)
         return Response(serializer.data)
 
     @csrf_exempt

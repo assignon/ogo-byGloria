@@ -38,6 +38,10 @@ export default {
 
     },
 
+    mounted(){
+        this.$store.commit('showMenus')
+    },
+
     methods: {
 
         getBags() {
@@ -72,6 +76,7 @@ export default {
     align-items: center;
     width: 100%;
     height: auto;
-    min-height: 400px;
+    min-height: 52vh;
+    margin-bottom: 50px;
 }
 </style>
