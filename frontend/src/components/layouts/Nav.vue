@@ -155,7 +155,6 @@ export default {
     },
 
     created() {
-        
         window.addEventListener('scroll', this.menuScrollAnimation)
         this.productNumber()
         

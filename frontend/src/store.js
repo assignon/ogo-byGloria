@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    HOST: "http://127.0.0.1:8000",
+    HOST: window.location.hostname == 'localhost' ? "http://127.0.0.1:8000" : "http://yanick007.pythonanywhere.com",
     DOMAIN:
       window.location.protocol +
       "//" +
