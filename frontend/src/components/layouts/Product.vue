@@ -10,14 +10,24 @@
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-             <div v-on="on" :id="productId" @click="$router.push(`/product/${productName}-${productId}`), $store.commit('productDescription', $route.params.id), $store.commit('relatedProduct', $route.params.id)" class="icon-container animated"><v-icon>fas fa-eye</v-icon></div>
+             <div v-on="on" 
+              :id="productId" 
+              @click="$router.push(`/product/${productName}-${productId}`),
+               $store.commit('productDescription', 
+               $route.params.id), 
+               $store.commit('relatedProduct', $route.params.id),
+               $store.commit('scrollTopAnimation')" 
+              class="icon-container animated"
+             >
+              <v-icon>fas fa-eye</v-icon>
+            </div>
             </template>
             <span>Apercu rapide</span>
           </v-tooltip>
 
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
-              <div v-on="on" :id="productId" @mouseover="showSocials()" @mouseout="$store.commit('hideSocials', 'loginModal')" class="icon-container share-container animated">
+              <div v-on="on" :id="productId" @mouseover="showSocials()" @mouseout="hideSocials()" class="icon-container share-container animated">
                 <div class="socials animated"><a href="" target="_blank"><v-icon>fab fa-instagram</v-icon></a></div>
                 <div class="socials ma-3 animated"><a href="" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a></div>
                 <div><v-icon>fas fa-share-alt</v-icon></div>
@@ -114,7 +124,7 @@ export default {
       if(this.$session.get('auth')){
         this.$store.commit('addLike')
       }else{
-        this.$store.commit('showModal', 'loginModal')
+        this.$store.commit('showModal', {modalId:'loginModal',top: '100px'})
       }
     },
 

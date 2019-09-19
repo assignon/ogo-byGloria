@@ -1,7 +1,7 @@
 <template>
     <div class="signin-core animated" id="loginModal">
         <v-layout column justify-center align-center class="login-form-layout">
-            <v-flex  xs10 sm10 md10 lg10 xlg10 class="close-flex"><v-icon class="pa-3 close" @click="$store.commit('hideModal', 'loginModal')">fas fa-times</v-icon></v-flex>
+            <v-flex  xs10 sm10 md10 lg10 xlg10 class="close-flex"><v-icon class="pa-3 close" @click="$store.commit('hideModal', {modalId:'loginModal',top: '-400px'})">fas fa-times</v-icon></v-flex>
             <v-flex xs10 sm10 md10 lg10 xlg10 class="password-forgot-flex">
                 <div class="return-cotainer pl-3"><v-icon class="" large @click="backToLogin()">fas fa-angle-left</v-icon></div>
                 <p class="pass-recovery-msg animated">{{passwordRcoveryMsg}}</p>
@@ -20,7 +20,7 @@
 
             <v-flex xs10 sm10 md10 lg10 xlg10 class="login-form-flex animated">
                 <!-- <div class="return-cotainer pl-3" v-if="passwordForgot"><v-icon class="" large @click="backToLogin()">fas fa-angle-left</v-icon></div> -->
-                <h3 class="login-head animated" @click="$store.commit('hideModal', 'loginModal')">Connectez-vous ou <router-link to="/signup" style="color: #2962FF;font-size: 15px; cursor: pointer;">Creer un compte</router-link></h3>
+                <h3 class="login-head animated" @click="$store.commit('hideModal', {modalId:'loginModal',top: '-400px'})">Connectez-vous ou <router-link to="/signup" style="color: #2962FF;font-size: 15px; cursor: pointer;">Creer un compte</router-link></h3>
                 <v-divider style="width:50%;" class="mb-5"></v-divider>
                 <v-form class="login-form">
                     <v-text-field

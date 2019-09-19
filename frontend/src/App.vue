@@ -4,7 +4,7 @@
     <v-content>
 
       <SigninModal/>
-      <CartContent v-if="$store.state.cartContent.length != 0"/>
+      <CartContent/>
       <Nav/>
       <router-view class="animated fadeIn"></router-view>
       <Footer/>
@@ -53,7 +53,12 @@ export default {
 
 <style scoped>
 
+html, body{
+  scroll-behavior: smooth;
+}
+
 #app{
+  /* scroll-behavior: smooth; */
   margin: 0px;
   padding: 0px;
   width: 100%;

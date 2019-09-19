@@ -5,6 +5,7 @@ import Bag from "./views/Bag.vue";
 import Accessory from "./views/Accessory.vue";
 import Product from "./views/ProductDescription.vue";
 import Signup from "./views/account/Signup.vue";
+import Order from "./views/purchase/Order.vue";
 
 Vue.use(Router);
 
@@ -51,6 +52,18 @@ export default new Router({
       path: "/signup",
       name: "signup",
       component: Signup
+    },
+
+    {
+      path: "/order",
+      name: "order",
+      component: Order
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    }
+  }
 });

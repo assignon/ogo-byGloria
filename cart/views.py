@@ -65,15 +65,21 @@ class Cart_view(viewsets.ModelViewSet):
     @csrf_exempt
     @action(methods=['get'], detail=False)
     def remove_to_cart(self, request):
-        pass
+        product_id = request.query_params.get('productId')
+        user_id = request.query_params.get('userId')
+        Cart.objects.filter(Q(id=product_id) & Q(user_id=user_id)).delete()
+        return Response("Le produit a ete retirer de votre panier")
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
     def cart_content(self, request):
         user_id = request.query_params.get('shoppingSession')
         user_cart = Cart.objects.filter(user_id=user_id)
-        data = serializers.serialize("json", user_cart)
-        return Response(json.loads(data))
+        if user_cart.count() == 0:
+            return Response("Votre panier est vide pour l'instant")
+        else:
+            data = serializers.serialize("json", user_cart)
+            return Response(json.loads(data))
 
     @csrf_exempt
     @action(methods=['get'], detail=False)

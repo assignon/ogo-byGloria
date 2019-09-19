@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="likes pl-1 pr-1">
-                                <v-icon @click="$session.get('auth') ? $store.commit('addLike') : $store.commit('showModal', 'loginModal')">fas fa-heart</v-icon>
+                                <v-icon @click="$session.get('auth') ? $store.commit('addLike') : $store.commit('showModal', {modalId:'loginModal',top: '100px'})">fas fa-heart</v-icon>
                                 <v-divider inset vertical class="like-divider"></v-divider>
                                 <span>{{$store.state.viewedProduct.likes}}</span>
                             </div>
@@ -82,7 +82,7 @@
                         ></v-textarea>
                         <div style="display:flex; justify-content: space-between; align-items: flex-start width:100%;height:auto;">
                             <p class="comment-error" :style="{opacity: `${sended}`}" v-model="commentFieldValue">{{commentErrMsg}}</p>
-                            <v-btn depressed flat medium color="#FFCC80">
+                            <v-btn depressed flat medium color="#FFCC80" @click="$session.get('auth') ? addComment() : $store.commit('showModal', {modalId:'loginModal',top: '100px'})">
                                 <v-icon small left color="white">fas fa-paper-plane</v-icon>
                                 <span class="white--text">Poster</span>
                             </v-btn>
@@ -105,6 +105,7 @@
 
             <v-flex xs10 sm10 md8 lg8 xl8 class="related-product-flex mt-5">
                 <h4 class="font-weight-bold">VOUS AIMEREZ AUSSI</h4>
+                <v-divider style="width: 50%;"></v-divider>
                 <div class="related-product">
                     <v-layout row wrap justify-center align-center class="product-container">
                         <v-flex xs11 sm5 md3 lg4 class="product-flex animated zoomIn" v-for="(relatedproduct, i) in $store.state.relatedProduct" :key="i" :style="{animationDelay: i/10+'s'}">
@@ -189,6 +190,10 @@ export default {
                 this.$store.state.shoppingId = this.$session.get('shoppingSession')
                 this.$store.commit('addToCart', {productId:this.$route.params.id, quantity: this.productQty, userId: this.$store.state.shoppingId})
             }
+        },
+
+        addComment(){
+
         }
 
     }

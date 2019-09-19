@@ -12,7 +12,7 @@
                     <router-link to="/signup" style="text-decoration: none;"><p class="signup pl-4 pr-4 pt-1 pb-1 mr-2 font-weight-bold">
                         S'INSCRIR
                     </p></router-link>
-                    <p class="signin pl-4 pr-4 pt-1 pb-1 font-weight-bold" @click="$store.commit('showModal', 'loginModal')">SE CONNECTER</p>
+                    <p class="signin pl-4 pr-4 pt-1 pb-1 font-weight-bold" @click="$store.commit('showModal', {modalId:'loginModal',top: '100px'})">SE CONNECTER</p>
                     <a href="" class="social-link ma-2 pl-3" style="text-decoration: none" target="_blank"><v-icon medium class="social-icon">fab fa-instagram</v-icon></a>
                     <!-- <v-btn medium depressed color="#FfCC80" class="signup mr-3">S'INSCRIRE</v-btn>
                     <v-btn medium  outlined  color="" class="signin">SE CONECTER</v-btn> -->
@@ -129,8 +129,8 @@
                     <router-link to="/signup" style="text-decoration: none;"><p class="signup pl-4 pr-4 pt-1 pb-1 font-weight-bold">
                         S'INSCRIR
                     </p></router-link>
-                    <p class="signin pl-4 pr-4 pt-1 pb-1 font-weight-bold" @click="$store.commit('showModal', 'loginModal')">SE CONNECTER</p>
-                    <div class="shopping-container cart-badget-seconde animated" style="margin-left: 0px;">
+                    <p class="signin pl-4 pr-4 pt-1 pb-1 font-weight-bold" @click="$store.commit('showModal', {modalId:'loginModal',top: '100px'})">SE CONNECTER</p>
+                    <div class="shopping-container cart-badget-seconde animated" style="margin-left: 0px;" @click="showCart()">
                         <v-badge overlap color="#FFA726" class="shopping-badge">
                             <template v-slot:badge>{{$store.state.numberOfProduct}}</template>
                             <v-icon large style="color: #FfCC80;">fas fa-shopping-basket</v-icon>
@@ -192,8 +192,9 @@ export default {
         },
 
         async showCart(){
+            let self = this
             await this.$store.commit('fetchCartContent', this.$session.get('shoppingSession'))
-            this.$store.commit('showModal', 'cartModal')
+            this.$store.commit('showModal', {modalId:'cartModal',top: '100px'})
         }
 
     }
