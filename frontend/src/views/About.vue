@@ -1,13 +1,13 @@
 <template>
   <div class="about-core animated fadeIn">
-    <v-layou column justify-center align-center class="about-layout">
+    <v-layout column justify-center align-center class="about-layout">
 
       <v-flex xs10 sm10 md10 lg10 class="about-head-flex">
         <h2 class="font-weight-bold mb-2 animated fadeInUp">A propos d'Ogo By Goria</h2>
         <v-divider color="white" style="width: 100%;"></v-divider>
       </v-flex>
 
-      <v-flex xs10 sm10 md10 lg10 xl10 class="stories-flex mt-5" v-for="(story,i) in stories" :key=i>
+      <v-flex xs10 sm10 md8 lg8 xl8 class="stories-flex mt-5" v-for="(story,i) in stories" :key=i>
         <div class="story-titel mb-3" :class="story.elemClass">
           <div class="story-img" data-aos="zoom-in" :style="{backgroundImage: `url(${story.storyImg})`}"></div>
           <h3 class="font-weight-bold" style="color: #FFCC80;text-transform: capitalize;" :data-aos="story.animation" data-aos-delay="100">{{story.titel}}</h3>
@@ -16,6 +16,7 @@
         <v-divider style="width:55%" color="#152439" class="mb-1"></v-divider>
         <p class="story-content" :class="story.elemClass" data-aos="fade-up" data-aos-delay="200">{{story.content}}</p>
       </v-flex>
+
       <v-flex xs10 md10 md8 lg8 xl8 class="story-end mt-5" data-aos="fade-in" data-aos-duration="1000">
         <v-divider style="width:100%" color="" class="mb-4"></v-divider>
         <p>
@@ -24,7 +25,7 @@
           J'en suis sûr , ce n'est que le début.. <br><br>
         </p>
       </v-flex>
-    </v-layou>
+    </v-layout>
   </div>
 </template>
 
@@ -84,6 +85,7 @@ export default {
     margin: auto;
     margin-bottom: 50px;
   }
+  
   .aboout-head-flex h2{
     text-align: center;
     margin: 0px;
@@ -95,6 +97,7 @@ export default {
     justify-content: flex-start;
     align-items: flex-start;
     margin: auto;
+    width: 80%;
   }
 
   .stories-flex:nth-child(odd){
@@ -175,5 +178,19 @@ export default {
     height: auto;
     text-align: center;
     font-size: 16px;
+  }
+
+  @media only screen and (max-width: 800px){
+    .story-content{
+      width: 99%;
+    }
+
+    .stories-flex{
+      width: 90%;
+    }
+
+    .story-end p{
+      width: 90%;
+    }
   }
 </style>

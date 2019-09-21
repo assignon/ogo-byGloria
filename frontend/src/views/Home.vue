@@ -166,9 +166,24 @@ export default {
 
 .home-slider-imgs h3{
   text-align: left;
-  color: #FfCC80;
+  color: #FB8C01;
   margin-left: 50px;
   margin-bottom: 50px;
+}
+
+/* responsive style */
+
+@media only screen and (max-width: 500px) {
+  .home-core .home-slider{
+    width: 100%;
+    border-radius: 0px;
+  }
+
+  .home-slider-imgs h3{
+    margin-left: 20px;
+    margin-bottom: 30px;
+    font-size: 16px;
+  }
 }
   
 </style>

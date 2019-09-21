@@ -105,4 +105,22 @@ export default {
         color: #FfCC80;
     }
 
+    @media only screen and (max-width: 500px){
+        .contact-flex{
+            justify-content: center;
+            align-items:center;
+        }
+
+        .socials-flex{
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .social-link{
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
 </style>

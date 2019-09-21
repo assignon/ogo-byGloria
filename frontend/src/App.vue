@@ -55,6 +55,10 @@ export default {
 
 html, body{
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 #app{
@@ -65,6 +69,7 @@ html, body{
   display: flex;
   justify-content: center;
   align-items: center;
+  /* overflow-x: hidden; */
 }
 
 </style>

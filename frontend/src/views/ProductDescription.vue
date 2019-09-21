@@ -1,19 +1,19 @@
 <template>
     <div class="description-core">
 
-        <v-layout row justify-center align-start class="desc-layout">
-            <v-flex xs10 sm8 md4 lg4 xl8 class="product-desc-flex">
+        <v-layout row justify-center align-center class="desc-layout">
+            <v-flex xs11 sm8 md4 lg4 xl8 class="product-desc-flex">
                 <div class="product-img">
                     <div class="product-overlay animated zoomIn" :style="{backgroundImage: `url(${$store.state.HOST}${$store.state.viewedProduct.product_image})`}"></div>
-                    <div class="sub-img">
+                    <!-- <div class="sub-img">
                         <img src="../assets/image.png" alt="">
                         <img src="../assets/image.png" alt="">
                         <img src="../assets/image.png" alt="">
-                    </div>
+                    </div> -->
                 </div>
             </v-flex>
 
-            <v-flex xs10 sm8 md8 lg4 xl4 class="product-detail-flex">
+            <v-flex xs11 sm8 md8 lg4 xl4 class="product-detail-flex">
                 <div class="product-desc">
                     <div class="name-price">
                         <h3 class="animated fadeInUp">{{$store.state.viewedProduct.product_name}}</h3>
@@ -46,9 +46,9 @@
                             <!-- <p>PARTAGER:</p> -->
                             <div class="socials-icon">
                                 <p>PARTAGER:</p>
-                                <a href="" target="_blank"><v-icon>fab fa-instagram</v-icon></a>
-                                <a href="" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a>
-                                <a href="" target="_blank"><v-icon>fab fa-twitter-square</v-icon></a>
+                                <!-- <a href="" target="_blank"><v-icon>fab fa-instagram</v-icon></a> -->
+                                <a :href="`https://www.facebook.com/sharer?u=https%3A%2F%2F${$store.state.SHARE_HOST}%2F${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a>
+                                <a :href="`https://twitter.com/intent/tweet?text=Sac%20a%20main%20${$store.state.viewedProduct.product_name}%20hiper%20tadant%20a%20-%20prix%20tres%20abordable%20${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-twitter-square</v-icon></a>
                             </div>
 
                             <div class="likes pl-1 pr-1">
@@ -61,9 +61,9 @@
                 </div>
             </v-flex>
         </v-layout>
-        <v-divider style="width: 90%" class="mt-3"></v-divider>
+        <v-divider style="width: 90%" class="mt-3 first-divider"></v-divider>
         <v-layout column justify-center align-center class="tab-layout mt-3">
-            <v-flex xs10 sm10 md8 lg8 xl10 class="tab-flex mb-3">
+            <v-flex xs12 sm12 md8 lg8 xl10 class="tab-flex mb-3">
                 <v-tabs v-model="active"  class="tab-container"
                     color="#ffcc80" slider-color="#ffcc80" style="background-color: transparent;">
 
@@ -88,7 +88,7 @@
                             </v-btn>
                         </div>
                         <div style="display:flex; justify-content: center; align-items: center; width:100%;height:auto;">
-                            <div style="width: 90%; border: 0.5px solid grey;" class="mt-5"></div>
+                            <div style="width: 90%; border: 0.5px solid grey;" class="mt-5 comment-divider"></div>
                         </div>
                         <div class="comments mt-5"></div>
                     </v-tab-item>
@@ -103,12 +103,12 @@
                 </v-tabs>
             </v-flex>
 
-            <v-flex xs10 sm10 md8 lg8 xl8 class="related-product-flex mt-5">
+            <v-flex xs12 sm12 md12 lg12 xl12 class="related-product-flex mt-5">
                 <h4 class="font-weight-bold">VOUS AIMEREZ AUSSI</h4>
-                <v-divider style="width: 50%;"></v-divider>
+                <v-divider style="width: 50%;" class="related-divider"></v-divider>
                 <div class="related-product">
                     <v-layout row wrap justify-center align-center class="product-container">
-                        <v-flex xs11 sm5 md3 lg4 class="product-flex animated zoomIn" v-for="(relatedproduct, i) in $store.state.relatedProduct" :key="i" :style="{animationDelay: i/10+'s'}">
+                        <v-flex xs10 sm10 md3 lg4 class="product-flex animated zoomIn" v-for="(relatedproduct, i) in $store.state.relatedProduct" :key="i" :style="{animationDelay: i/10+'s'}">
                             <Product
                               :productImage =relatedproduct.fields.product_image
                               :productName =relatedproduct.fields.product_name
@@ -218,9 +218,9 @@ export default {
         height: auto;
     }
 
-    .product-desc-flex, .product-detail-flex{
+    .product-desc-flex{
         display: flex;
-        flex-direction: row;
+        /* flex-direction: row; */
         justify-content: center;
         align-items: center;
         width: auto;
@@ -229,11 +229,13 @@ export default {
 
     .product-img{
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        /* flex-direction: column; */
+        /* justify-content: space-between; */
+        justify-content: center;
         align-items: center;
-        width: auto;
-        height: 550px;
+        width: 100%;
+        /* height: 550px; */
+        height: auto;
     }
 
     .product-overlay{
@@ -259,6 +261,15 @@ export default {
         width: 30%;
         cursor: pointer;
         /* height: 150px; */
+    }
+
+    .product-detail-flex{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        height: auto;
+        /* border: 1px solid red; */
     }
 
     .product-desc{
@@ -483,7 +494,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 70%;
+        width: 100%;
         height: auto;
     }
 
@@ -494,5 +505,43 @@ export default {
         align-items: center;
         width: 100%;
         height: auto;
+    }
+
+    @media only screen and (max-width: 800px){
+        .description-core{
+            margin-top: 100px;
+        }
+
+        .product-detail-flex{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .product-desc{
+            height: auto;
+            margin-right: 0px;
+        }
+
+        .detail-social-container{
+            margin-top: 20px;
+        }
+
+        .first-divider{
+            width: 95%
+        }
+
+        .related-divider{
+            width: 70%;
+        }
+
+        .comment-divider{
+            width: 95%;
+        }
+
+        .tab-flex{
+          width: 90%;
+        }
     }
 </style>

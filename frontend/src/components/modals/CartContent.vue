@@ -12,8 +12,10 @@
             <v-flex xs12 sm12 md12 lg12 xl12 class="cart-content-flex">
                 <div class="cart-content-container animated" v-for="(product, i) in $store.state.cartContent" :key="i">
                     <div class="cart-content animated bounceIn" :style="{animationDelay: `${i*200}`}">
-                        <div class="tables" style="width: 10%;"><div class="product-img animated zoomIn" :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${product.fields.image})`}"></div></div>
-                        <div class="tables" style="width: 40%;"><p style="" class="mt-5 font-weight-bold">{{product.fields.name}}</p></div>
+                        <div class="img-name">
+                            <div class="tables" style="width: 15%;"><div class="product-img animated zoomIn" :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${product.fields.image})`}"></div></div>
+                            <div class="tables" style="width: 70%;"><p style="" class="mt-5 font-weight-bold">{{product.fields.name}}</p></div>
+                        </div>
                         <div class="tables" style="width: 10%;"><p style="" class="mt-5 font-weight-bold">€{{product.fields.price}}</p></div>
                         <div class="tables" style="width: 20%;"><ProductQtyCtrl :productQty=product.fields.quantity /></div>
                         <div class="tables mr-5" style="width: 20%;justify-content: flex-end;"><p class="font-weight-bold mt-5">€{{product.fields.price*product.fields.quantity}}</p></div>
@@ -94,6 +96,7 @@ export default {
                     userId: self.$session.get('shoppingSession')
                 }
             }).then(response => {
+                self.$store.state.numberOfProduct -= 1
                 console.log(response.data);
             }).catch(error => {
                 console.log(error);
@@ -198,6 +201,26 @@ export default {
     justify-content: space-around;
     align-items: center;
     margin: auto;
+    
+}
+
+.img-name{
+    width: 50%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.img-name .tables{
+    /* width: 50%; */
+    /* height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: auto; */
 }
 
 .tables{
@@ -266,6 +289,19 @@ export default {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 500px){
+     .cart-content-core{
+        width: 100%;
+        right: 0px;
+    }
+
+   .img-name{
+        flex-direction: column;
+        width: 40%;
+        align-items: center;
+    }
 }
 
 </style>

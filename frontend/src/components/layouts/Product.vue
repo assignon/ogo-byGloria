@@ -28,7 +28,7 @@
           <v-tooltip left color="#000">
             <template v-slot:activator="{ on }">
               <div v-on="on" :id="productId" @mouseover="showSocials()" @mouseout="hideSocials()" class="icon-container share-container animated">
-                <div class="socials animated"><a href="" target="_blank"><v-icon>fab fa-instagram</v-icon></a></div>
+                <div class="socials animated"><a href="`https://twitter.com/intent/tweet?text=Sac%20a%20main%20${$store.state.viewedProduct.product_name}%20hiper%20tadant%20a%20-%20prix%20tres%20abordable%20${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-twitter-square</v-icon></a></div>
                 <div class="socials ma-3 animated"><a href="" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a></div>
                 <div><v-icon>fas fa-share-alt</v-icon></div>
               </div>
@@ -254,6 +254,12 @@ export default {
     text-align: left;
     margin: 0px;
     color: black;
+}
+
+@media only screen and (max-width: 500px){
+  .product {
+    width: 95%;
+  }
 }
 
 </style>

@@ -1,11 +1,12 @@
 <template>
     <div class="signup-core animared fadeIn">
-        <v-layout row justify-space-between align-center class="signup-layout">
+        <v-layout row wrap align-center class="signup-layout">
             <v-flex xs12 sm12 md8 lg7 xl7 class="overlay-flex">
                 <div class="overlay animated fadeIn"></div>
             </v-flex>
 
-            <v-flex xs12 sm12 md5 lg5 xl5 class="form-flex">
+            <v-flex xs11 sm11 md4 lg5 xl5 class="form-flex">
+                <!-- <div class="signup-background"> -->
                 <h3 class="font-weight-bold animated fadeInUp" style="animation-delay: 0.1s;">Créez votre compte</h3>
                 <v-divider style="width:50%;" class="mb-5"></v-divider>
                 <v-form class="register-form">
@@ -55,6 +56,7 @@
                         <v-btn depressed large height="50" color="#FFCC80" class="white--text animated bounceIn" >Inscription</v-btn>
                     </div>
                 </v-form>
+                <!-- </div> -->
             </v-flex>
         </v-layout>
     </div>
@@ -106,8 +108,9 @@ export default {
     
 .signup-core{
     width: 100%;
-    height: 90vh;
-    min-height: 52vh;
+    height: auto;
+    /* min-height: 90vh; */
+    /* min-height: 52vh; */
     margin-top: 70px;
     display: flex;
     justify-content: center;
@@ -116,14 +119,16 @@ export default {
 
 .signup-layout{
     width: 100%;
-    height: 100%;
+    height: auto;
+    justify-content: space-between;
 }
 
 .overlay-flex{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 90vh;
+    width: 100%;
 }
 
 .overlay{
@@ -140,8 +145,20 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 90vh;
+    width: 100%;
     background-color: #F5F5F5;
+}
+
+.signup-background{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    position: absolute;
 }
 
 .register-form{
@@ -162,6 +179,37 @@ export default {
     font-size: 17px;
     font-weight: bold;
     margin: 0px;
+}
+
+@media only screen and (max-width: 800px){
+    .signup-core{
+        margin-top: 0px;
+    }
+
+    .form-flex{
+        margin-top: -200px;
+        z-index: 5; 
+        border-radius: 3px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #E0E0E0;
+    }
+
+    .signup-layout{
+        flex-direction: column;
+        justify-content: center;
+    }  
+
+    .register-form{
+        width: 90%;
+    }
+
+    @media only screen and (max-width: 970px){
+        .form-flex{
+            height: auto;
+        }
+    } 
 }
 
 </style>

@@ -3,7 +3,7 @@
 
         <div class="add-more">
             <v-btn depressed color="#FFCC80" @click="productQuantity('-')"><v-icon small color="white" class="minus-product">fas fa-minus</v-icon></v-btn>
-            <p class="quantity" v-model="productQty">{{productQty}}</p>
+            <p class="quantity">{{productQty}}</p>
             <v-btn depressed small  color="#FFCC80" @click="productQuantity('+')"><v-icon small color="white">fas fa-plus</v-icon></v-btn>
         </div>
     </div>

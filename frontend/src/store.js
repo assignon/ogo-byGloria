@@ -7,14 +7,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    HOST: window.location.hostname == 'localhost' ? "http://127.0.0.1:8000" : "http://yanick007.pythonanywhere.com",
+    HOST: window.location.hostname == 'localhost' ? "http://127.0.0.1:8000" : "https://yanick007.pythonanywhere.com",
+    SHARE_HOST: window.location.hostname == 'localhost' ? "127.0.0.1:8000" : "yanick007.pythonanywhere.com",
     DOMAIN:
       window.location.protocol +
       "//" +
       window.location.hostname +
       ":" +
       window.location.port,
-    MEDIA_ROOT: "http://127.0.0.1:8000/media",
+    MEDIA_ROOT: window.location.hostname == 'localhost' ? "http://127.0.0.1:8000/media" : "https://yanick007.pythonanywhere.com/media",
     AUTHENTICATED: undefined,
     userId: undefined,
     shoppingId: undefined, //temporary id when user is not logged eand destroy when the user logged of purchase

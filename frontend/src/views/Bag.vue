@@ -79,4 +79,10 @@ export default {
     min-height: 52vh;
     margin-bottom: 50px;
 }
+
+@media only screen and (max-width: 800px){
+    .bag-core{
+        margin-top: 50px;
+    }
+}
 </style>

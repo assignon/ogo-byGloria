@@ -268,4 +268,11 @@ export default {
         /* border: 1px solid red; */
     }
 
+    @media only screen and (max-width: 500px){
+        .signin-core{
+            width: 100%;
+            right: 0%;
+        }
+    }
+
 </style>
