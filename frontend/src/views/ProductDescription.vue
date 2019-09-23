@@ -421,7 +421,7 @@ export default {
         height: auto;
         display: flex;
         flex-direction: row;
-        justify-content: ccenter;
+        justify-content: center;
         align-items: center;
     }
 
