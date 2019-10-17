@@ -23,6 +23,7 @@ export default new Vuex.Store({
     viewedProduct: undefined,
     relatedProduct: [],
     cartContent: [],
+    productQtyValue: 1,
     numberOfProduct: null, //number of product added to the cart
     productSum: [], // store the multiplication of the product price en qty
     productTotal: undefined // sum of all product in the cart
@@ -119,6 +120,7 @@ export default new Vuex.Store({
           if (!response.data.exist) {
             state.numberOfProduct += 1;
           }
+
           console.log(response.data.msg);
         })
         .catch(error => {
@@ -155,7 +157,19 @@ export default new Vuex.Store({
         });
     },
 
-    updateCart(state, productId) {},
+    updateCart(state, param) {
+      axios.get(`${state.HOST}/cart/update_cart/`, {
+          params: {
+            newQty: param.newQty,
+            productId: param.productId,
+            shoppingSession: param.userId
+          }
+      }).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
 
     removeToCart(state, productId) {},
 

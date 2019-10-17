@@ -1,8 +1,8 @@
 <template>
     <div class="description-core">
 
-        <v-layout row justify-center align-center class="desc-layout">
-            <v-flex xs11 sm8 md4 lg4 xl8 class="product-desc-flex">
+        <v-layout row wrap justify-center align-center class="desc-layout mb-5">
+            <v-flex xs12 sm6 md6 lg6 xl6 class="product-desc-flex">
                 <div class="product-img">
                     <div class="product-overlay animated zoomIn" :style="{backgroundImage: `url(${$store.state.HOST}${$store.state.viewedProduct.product_image})`}"></div>
                     <!-- <div class="sub-img">
@@ -13,7 +13,7 @@
                 </div>
             </v-flex>
 
-            <v-flex xs11 sm8 md8 lg4 xl4 class="product-detail-flex">
+            <v-flex xs12 sm6 md6 lg6 xl6 class="product-detail-flex">
                 <div class="product-desc">
                     <div class="name-price">
                         <h3 class="animated fadeInUp">{{$store.state.viewedProduct.product_name}}</h3>
@@ -45,10 +45,10 @@
                         <div class="share">
                             <!-- <p>PARTAGER:</p> -->
                             <div class="socials-icon">
-                                <p>PARTAGER:</p>
+<!--                                <p>PARTAGER:</p>-->
                                 <!-- <a href="" target="_blank"><v-icon>fab fa-instagram</v-icon></a> -->
-                                <a :href="`https://www.facebook.com/sharer?u=https%3A%2F%2F${$store.state.SHARE_HOST}%2F${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a>
-                                <a :href="`https://twitter.com/intent/tweet?text=Sac%20a%20main%20${$store.state.viewedProduct.product_name}%20hiper%20tadant%20a%20-%20prix%20tres%20abordable%20${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-twitter-square</v-icon></a>
+                                <a class="" :href="`https://www.facebook.com/sharer?u=https%3A%2F%2F${$store.state.SHARE_HOST}%2F${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-facebook-square</v-icon></a>
+                                <a class="ml-5" :href="`https://twitter.com/intent/tweet?text=Sac%20a%20main%20${$store.state.viewedProduct.product_name}%20hiper%20tadant%20a%20-%20prix%20tres%20abordable%20${$store.state.HOST}${$store.state.viewedProduct.product_image}`" target="_blank"><v-icon>fab fa-twitter-square</v-icon></a>
                             </div>
 
                             <div class="likes pl-1 pr-1">
@@ -61,24 +61,25 @@
                 </div>
             </v-flex>
         </v-layout>
-        <v-divider style="width: 90%" class="mt-3 first-divider"></v-divider>
-        <v-layout column justify-center align-center class="tab-layout mt-3">
+        <v-divider style="width: 80%" class="mt-5 mb-5 first-divider"></v-divider>
+        <v-layout column justify-center align-center class="tab-layout mt-5">
             <v-flex xs12 sm12 md8 lg8 xl10 class="tab-flex mb-3">
                 <v-tabs v-model="active"  class="tab-container"
-                    color="#ffcc80" slider-color="#ffcc80" style="background-color: transparent;">
+                    color="#ffcc80" slider-color="#ffcc80" style="box-shadow: none;background-color: #fafafa;">
 
                     <v-tab style="background: transparent;" class="font-weight-bold" :ripple="false">AVIS(0)</v-tab>
                     <v-tab style="background: transparent;" class="font-weight-bold" :ripple="false">METHODE DE PAYEMENT</v-tab>
                     <v-tab style="background: transparent;" class="font-weight-bold" :ripple="false">LIVRAISON</v-tab>
 
-                    <v-tab-item class="tab-item comments-tab mt-5 pt-3" style="background-color: transparent;">
+                    <v-tab-item class="tab-item comments-tab pt-3" style="background-color: transparent;border-top: 2px solid #eee">
                         <v-textarea
                             class="mx-2"
                             label="Laiser un commentaire..."
-                            rows="1"
+                            rows="5"
                             prepend-icon="comment"
                             color="#FFCC80"
                             flat
+                            style="line-height: 22px;"
                         ></v-textarea>
                         <div style="display:flex; justify-content: space-between; align-items: flex-start width:100%;height:auto;">
                             <p class="comment-error" :style="{opacity: `${sended}`}" v-model="commentFieldValue">{{commentErrMsg}}</p>
@@ -88,7 +89,7 @@
                             </v-btn>
                         </div>
                         <div style="display:flex; justify-content: center; align-items: center; width:100%;height:auto;">
-                            <div style="width: 90%; border: 0.5px solid grey;" class="mt-5 comment-divider"></div>
+                            <div style="width: 100%; border: 0.5px solid #eee;" class="mt-5 comment-divider"></div>
                         </div>
                         <div class="comments mt-5"></div>
                     </v-tab-item>
@@ -103,9 +104,9 @@
                 </v-tabs>
             </v-flex>
 
-            <v-flex xs12 sm12 md12 lg12 xl12 class="related-product-flex mt-5">
+            <v-flex xs12 sm12 md12 lg12 xl12 class="related-product-flex mt-5" v-if="this.$store.state.relatedProduct.length != 0">
                 <h4 class="font-weight-bold">VOUS AIMEREZ AUSSI</h4>
-                <v-divider style="width: 50%;" class="related-divider"></v-divider>
+                <v-divider style="width: 10%;" class="related-divider"></v-divider>
                 <div class="related-product">
                     <v-layout row wrap justify-center align-center class="product-container">
                         <v-flex xs10 sm10 md3 lg4 class="product-flex animated zoomIn" v-for="(relatedproduct, i) in $store.state.relatedProduct" :key="i" :style="{animationDelay: i/10+'s'}">
@@ -153,7 +154,7 @@ export default {
 
         this.$store.commit('productDescription', this.$route.params.id)
         this.$store.commit('relatedProduct', this.$route.params.id)
-        console.log(this.$store.state.relatedProduct[0])
+        console.log(this.$store.state.relatedProduct.length)
 
     },
 
@@ -179,7 +180,7 @@ export default {
 
         addtoCart(){
             if(this.$session.get('auth')){
-                $store.commit('addToCart', {productId:this.$route.params.id, quantity: this.productQty, userId: this.$store.state.userId})
+                $store.commit('addToCart', {productId:this.$route.params.id, quantity: this.$store.state.productQtyValue, userId: this.$sssion.get('userId')})
             }else{
                 let generatedStr = btoa(Math.random()).substring(0,25)
                 let generatedNum = Math.floor(Math.random() * 16) + 5
@@ -188,7 +189,7 @@ export default {
                     this.$session.set('shoppingSession', generatedId)
                 }
                 this.$store.state.shoppingId = this.$session.get('shoppingSession')
-                this.$store.commit('addToCart', {productId:this.$route.params.id, quantity: this.productQty, userId: this.$store.state.shoppingId})
+                this.$store.commit('addToCart', {productId:this.$route.params.id, quantity: this.$store.state.productQtyValue, userId: this.$store.state.shoppingId})
             }
         },
 
@@ -214,7 +215,7 @@ export default {
     }
 
     .desc-layout{
-        width: 100%;
+        width: 70%;
         height: auto;
     }
 
@@ -246,6 +247,7 @@ export default {
         display: flex;
         justify-content: flex-start;
         align-items: flex-end;
+        border: 1px solid #000;
     }
 
     .sub-img{
@@ -263,14 +265,14 @@ export default {
         /* height: 150px; */
     }
 
-    .product-detail-flex{
+    .product-detail-flex {
         display: flex;
         justify-content: center;
         align-items: center;
         width: auto;
         height: auto;
-        /* border: 1px solid red; */
     }
+    
 
     .product-desc{
         width: auto;
@@ -421,7 +423,7 @@ export default {
         height: auto;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
 
@@ -438,8 +440,8 @@ export default {
         align-items: center;
         width: 20px;
         height: 20px;
-        margin-left: 10px;
-        margin-right: 10px;
+        /*margin-left: 10px;*/
+        /*margin-right: 10px;*/
     }
 
     .share a:hover .v-icon{
@@ -542,6 +544,12 @@ export default {
 
         .tab-flex{
           width: 90%;
+        }
+    }
+
+    @media only screen and (max-width: 1024px){
+        .desc-layout{
+            width: 90%;
         }
     }
 </style>

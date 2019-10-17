@@ -2,9 +2,9 @@
     <div>
 
         <div class="add-more">
-            <v-btn depressed color="#FFCC80" @click="productQuantity('-')"><v-icon small color="white" class="minus-product">fas fa-minus</v-icon></v-btn>
+            <v-btn id="minus" depressed color="#FFCC80" @click="productQuantity('-'), updateQty()"><v-icon small color="white" class="minus-product">fas fa-minus</v-icon></v-btn>
             <p class="quantity">{{productQty}}</p>
-            <v-btn depressed small  color="#FFCC80" @click="productQuantity('+')"><v-icon small color="white">fas fa-plus</v-icon></v-btn>
+            <v-btn id="plus" depressed small  color="#FFCC80" @click="productQuantity('+'), updateQty()"><v-icon small color="white">fas fa-plus</v-icon></v-btn>
         </div>
     </div>
 </template>
@@ -29,14 +29,21 @@ export default {
             if(this.productQty >= 1){
                 if(qty == '+'){
                     this.productQty += 1
+                    this.$store.state.productQtyValue = this.productQty
                 }else if(qty == '-'){
                     if(this.productQty > 1){
                         this.productQty -= 1
+                        this.$store.state.productQtyValue = this.productQty
                     }
                 }
             }else{
                 this.productQty = 1
+                this.$store.state.productQtyValue = this.productQty
             }
+        },
+
+        updateQty(){
+             this.$emit('updateProductQty')
         }
 
     }
@@ -54,7 +61,7 @@ export default {
     align-items: center;
 }
 
-.add-more .v-btn{
+.add-more #plus, .add-more #minus{
     width: 30px;
     padding: 0px;
     min-width: 0;
@@ -63,7 +70,7 @@ export default {
 }
 
 .add-more  .quantity{
-    width: aut0;
+    width: auto;
     padding: 10px;
     height: 30px;
     text-align: center;

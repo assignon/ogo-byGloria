@@ -4,7 +4,7 @@
     <v-content>
 
       <SigninModal/>
-      <CartContent/>
+<!--      <CartContent/>-->
       <Nav/>
       <router-view class="animated fadeIn"></router-view>
       <Footer/>

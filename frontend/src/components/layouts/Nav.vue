@@ -21,7 +21,7 @@
 
             <v-flex xs12 sm12 m12 lg12 class="logo-flex">
                 <h1 class="display-2 font-weight-bold" style="color: #FB8C00;font-style: italic;">Ogo By Gloria</h1>
-                <div class="shopping-container cart-badget animated" @click="showCart()">
+                <div class="shopping-container cart-badget animated" @click.stop="showCart(), cartDrawer = !cartDrawer">
                     <v-badge overlap color="#FFA726" class="shopping-badge">
                         <template v-slot:badge>{{$store.state.numberOfProduct}}</template>
                         <v-icon large style="color: #FfCC80;">fas fa-shopping-basket</v-icon>
@@ -130,7 +130,7 @@
                         S'INSCRIR
                     </p></router-link>
                     <p class="signin pl-4 pr-4 pt-1 pb-1 font-weight-bold" v-if="!$session.get('auth')" @click="$store.commit('showModal', {modalId:'loginModal',top: '100px'})">SE CONNECTER</p>
-                    <div class="shopping-container cart-badget-seconde animated" style="margin-left: 0px;" @click="showCart()">
+                    <div class="shopping-container cart-badget-seconde animated" style="margin-left: 0px;" @click.stop="showCart(), cartDrawer = !cartDrawer">
                         <v-badge overlap color="#FFA726" class="shopping-badge">
                             <template v-slot:badge>{{$store.state.numberOfProduct}}</template>
                             <v-icon large style="color: #FfCC80;">fas fa-shopping-basket</v-icon>
@@ -147,7 +147,7 @@
             </v-flex>
 
             <v-flex xs3 md3 class="menu-cart-flex">
-                <div class="shopping-container mt-3 cart-badget-seconde animated" style="margin-left: 0px;" @click="showCart()">
+                <div class="shopping-container mt-3 cart-badget-seconde animated" style="margin-left: 0px;" @click.stop="showCart(), cartDrawer = !cartDrawer">
                         <v-badge overlap color="#FFA726" class="shopping-badge">
                             <template v-slot:badge>{{$store.state.numberOfProduct}}</template>
                             <v-icon large style="color: #FfCC80;">fas fa-shopping-basket</v-icon>
@@ -218,24 +218,33 @@
                      <router-link to="/signup" style="text-decoration: none;" v-if="!$session.get('auth')"><p class="signup pl-4 pr-4 pt-1 pb-1 mb-3 font-weight-bold" @click.stop="drawer = !drawer">
                         S'INSCRIR
                     </p></router-link>
-                    <p class="signin pl-4 pr-4 pt-1 pb-1 mb-3 font-weight-bold" v-if="!$session.get('auth')" @click="$store.commit('showModal', {modalId:'loginModal',top: '100px'})" @click.stop="drawer = !drawer">SE CONNECTER</p>
+                    <p class="signin pl-4 pr-4 pt-1 pb-1 mb-3 font-weight-bold" v-if="!$session.get('auth')" @click="$store.commit('showModal', {modalId:'loginModal',top: '100px'}), drawer = !drawer">SE CONNECTER</p>
                  </v-flex>
 
-            </v-navigation-drawer>
+        </v-navigation-drawer>
+
+        <CartContent :drawer="cartDrawer"/>
+
     </div>
 </template>
 
 <script>
+    import CartContent from '../modals/CartContent';
 export default {
     
     name:"navbar",
+
+    components: {
+    CartContent,
+  },
 
     data () {
         return {
             activeBtn: 0,
             siteColor: '#FfCC80',
             secondaryNav: false,
-            drawer: false
+            drawer: false,
+            cartDrawer: false
         }
     },
 
@@ -278,7 +287,7 @@ export default {
         async showCart(){
             let self = this
             await this.$store.commit('fetchCartContent', this.$session.get('shoppingSession'))
-            this.$store.commit('showModal', {modalId:'cartModal',top: '100px'})
+            // this.$store.commit('showModal', {modalId:'cartModal',top: '100px'})
         }
 
     }

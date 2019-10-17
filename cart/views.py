@@ -60,7 +60,11 @@ class Cart_view(viewsets.ModelViewSet):
     @csrf_exempt
     @action(methods=['get'], detail=False)
     def update_cart(self, request):
-        return Response('cart updated')
+        new_qty = request.query_params.get('newQty')
+        product_id = request.query_params.get('productId')
+        user_id = request.query_params.get('shoppingSession')
+        Cart.objects.filter(Q(id=product_id) & Q(user_id=user_id)).update(quantity=new_qty)
+        return Response('cart quantity updated')
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
