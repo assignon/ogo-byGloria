@@ -55,7 +55,7 @@ export default new Router({
     },
 
     {
-      path: "/order",
+      path: "/order/:step",
       name: "order",
       component: Order
     }

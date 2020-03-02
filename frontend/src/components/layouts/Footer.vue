@@ -3,13 +3,13 @@
         <v-layout justify-space-around align-start row wrap class="footer-layout">
             <v-flex xs12 sm12 md4 lg4 class="contact-flex">
                 <h3>Contact</h3>
-                <p><v-icon>fas fa-at</v-icon> ogobygloria@gmail.com</p>
-                <p><v-icon>fas fa-phone-alt</v-icon> 00329374653...</p>
+                <p><v-icon>fas fa-at</v-icon> gervelly@hotmail.fr</p>
+                <p><v-icon>fas fa-phone-alt</v-icon> +33-752951451</p>
             </v-flex>
 
             <v-flex xs12 sm12 md4 lg4 class="socials-flex">
                 <h3>Reseau Sociaux</h3>
-                <a href="" class="social-link" style="text-decoration: none;" target="_blank"><v-icon medium class="social-icon">fab fa-instagram</v-icon></a>
+                <a href="https://www.instagram.com/Ogobygloria/" class="social-link" style="text-decoration: none;" target="_blank"><v-icon medium class="social-icon">fab fa-instagram</v-icon></a>
             </v-flex>
         </v-layout>
     </div>
@@ -102,7 +102,7 @@ export default {
     }
 
     .social-link:hover .v-icon{
-        color: #FfCC80;
+        color: #8B53FF;
     }
 
     @media only screen and (max-width: 500px){

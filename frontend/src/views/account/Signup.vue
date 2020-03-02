@@ -53,7 +53,7 @@
                     ></v-text-field>
 
                     <div class="password-forgot-container">
-                        <v-btn depressed large height="50" color="#FFCC80" class="white--text animated bounceIn" >Inscription</v-btn>
+                        <v-btn depressed large height="50" color="#8B53FF" class="white--text animated bounceIn" >Inscription</v-btn>
                     </div>
                 </v-form>
                 <!-- </div> -->

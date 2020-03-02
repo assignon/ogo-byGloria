@@ -10,6 +10,7 @@ django-cors-headers = "*"
 pillow = "*"
 django-environ = "*"
 python-memcached = "*"
+mollie-api-python = "*"
 
 [dev-packages]
 "autopep8" = "*"

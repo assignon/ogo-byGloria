@@ -27,6 +27,8 @@ from .serializers import Cart_serializer
 from cart.models import Cart
 from products.models import Product
 
+from mollie.api.client import Client
+
 # Create your views here.
 
 
@@ -51,11 +53,19 @@ class Cart_view(viewsets.ModelViewSet):
                 product_id=product_id,
                 user_id=userid
             )
-            return Response({'msg': '{0} succesfully added to cart'.format(product_data.product_name), 'exist': False})
+            return Response({'msg': '{0} succesfully added to cart'.format(product_data.product_name), 'exist': False, 'total': self.total(str(userid))})
         else:
             prduct_quantity = Cart.objects.get(product_id=product_id, user_id=str(userid)).quantity
             cart_filter.update(quantity=prduct_quantity+1)
-            return Response({'msg': 'Product quantity updated', 'exist': True})
+            return Response({'msg': 'Product quantity updated', 'exist': True, 'total': self.total(str(userid))})
+
+    #return the total price of all produts in the user cart
+    def total(self, userid):
+        user_cart = Cart.objects.filter(user_id=userid)
+        total_price = 0
+        for product in user_cart:
+            total_price += (product.price*product.quantity)
+        return total_price
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
@@ -64,7 +74,7 @@ class Cart_view(viewsets.ModelViewSet):
         product_id = request.query_params.get('productId')
         user_id = request.query_params.get('shoppingSession')
         Cart.objects.filter(Q(id=product_id) & Q(user_id=user_id)).update(quantity=new_qty)
-        return Response('cart quantity updated')
+        return Response({'msg': 'cart quantity updated', 'total': self.total(user_id)})
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
@@ -72,7 +82,8 @@ class Cart_view(viewsets.ModelViewSet):
         product_id = request.query_params.get('productId')
         user_id = request.query_params.get('userId')
         Cart.objects.filter(Q(id=product_id) & Q(user_id=user_id)).delete()
-        return Response("Le produit a ete retirer de votre panier")
+        cart_count = Cart.objects.all().count()
+        return Response({'msg':'Le produit a ete retirer de votre panier', 'count': cart_count, 'total': self.total(user_id)})
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
@@ -83,7 +94,7 @@ class Cart_view(viewsets.ModelViewSet):
             return Response("Votre panier est vide pour l'instant")
         else:
             data = serializers.serialize("json", user_cart)
-            return Response(json.loads(data))
+            return Response({'products':json.loads(data), 'total': self.total(user_id)})
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
@@ -91,3 +102,23 @@ class Cart_view(viewsets.ModelViewSet):
         user_id = request.query_params.get('shoppingSession')
         current_user_products = Cart.objects.filter(user_id=user_id).count()
         return Response(current_user_products)
+
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def paid_method(self, request):
+        mollie_client = Client()
+        mollie_client.set_api_key('test_Cpf7MF9sAfpSmvnbqMRwuaFqBSRQF4')
+        userid = request.query_params.get('userId')
+        print(self.total(userid))
+        payment = mollie_client.payments.create({
+            'amount': {
+                'currency': 'EUR',
+                'value': '{}.00'.format(self.total(userid))
+                # 'value': '10.00'
+            },
+            'description': 'My first API payment',
+            "redirectUrl": "http://localhost:8080/order/3/",
+            # 'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
+        })
+
+        return Response(payment)

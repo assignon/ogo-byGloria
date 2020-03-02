@@ -26,7 +26,7 @@ from rest_framework.status import (
 )
 
 from .serializers import Product_serializer
-from products.models import Product
+from products.models import Product, Product_imgs
 # Create your views here.
 
 class Product_view(viewsets.ModelViewSet):
@@ -76,6 +76,14 @@ class Product_view(viewsets.ModelViewSet):
         product_desc = self.get_queryset().get(id=product_id)
         serializer = self.get_serializer_class()(product_desc)
         return Response(serializer.data)
+
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def product_thumbmail(self, request):
+        product_id = request.query_params.get('productId')
+        thumbmails = Product_imgs.objects.filter(product_id=product_id)
+        data = serializers.serialize('json', thumbmails)
+        return Response(json.loads(data))
 
     @csrf_exempt
     @action(methods=['get'], detail=False)

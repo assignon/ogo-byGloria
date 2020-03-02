@@ -7,18 +7,29 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    HOST: window.location.hostname == 'localhost' ? "http://127.0.0.1:8000" : "https://yanick007.pythonanywhere.com",
-    SHARE_HOST: window.location.hostname == 'localhost' ? "127.0.0.1:8000" : "yanick007.pythonanywhere.com",
+    HOST:
+      window.location.hostname == "localhost"
+        ? "http://127.0.0.1:8000"
+        : "https://yanick007.pythonanywhere.com",
+    //facebook twitter etc...
+    SHARE_HOST:
+      window.location.hostname == "localhost"
+        ? "127.0.0.1:8000"
+        : "yanick007.pythonanywhere.com",
     DOMAIN:
       window.location.protocol +
       "//" +
       window.location.hostname +
       ":" +
       window.location.port,
-    MEDIA_ROOT: window.location.hostname == 'localhost' ? "http://127.0.0.1:8000/media" : "https://yanick007.pythonanywhere.com/media",
+    cartDrawer: false, //cart nav drawer ctrl
+    MEDIA_ROOT:
+      window.location.hostname == "localhost"
+        ? "http://127.0.0.1:8000/media"
+        : "https://yanick007.pythonanywhere.com/media",
     AUTHENTICATED: undefined,
     userId: undefined,
-    shoppingId: undefined, //temporary id when user is not logged eand destroy when the user logged of purchase
+    shoppingId: undefined, //temporary id when user is not logged and destroy when the user logged of purchase
     allProducts: [],
     viewedProduct: undefined,
     relatedProduct: [],
@@ -26,7 +37,8 @@ export default new Vuex.Store({
     productQtyValue: 1,
     numberOfProduct: null, //number of product added to the cart
     productSum: [], // store the multiplication of the product price en qty
-    productTotal: undefined // sum of all product in the cart
+    productTotal: 0, // sum of all product in the cart
+    thumbmailsArr: []
   },
 
   mutations: {
@@ -70,6 +82,33 @@ export default new Vuex.Store({
         });
     },
 
+    productsImgs(state, param){
+      let self = this;
+      axios
+        .get(`${state.HOST}/product/product_thumbmail/`, {
+          params: {
+            productId: param.prodid
+          }
+        })
+        .then(response => {
+
+          if(param.arr.length != 0){
+            param.arr.length = 0
+          }
+
+          response.data.forEach(item => {
+              param.arr.push(item)
+          })
+          // state.thumbmailsArr.push(response.data)
+
+          console.log(param.arr)
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     relatedProduct(state, productId) {
       let self = this;
       let currentProduct = productId.split("-");
@@ -84,8 +123,8 @@ export default new Vuex.Store({
             response.data.forEach(item => {
               state.relatedProduct.push(item);
             });
-          }else{
-            state.relatedProduct.length = 0
+          } else {
+            state.relatedProduct.length = 0;
             response.data.forEach(item => {
               state.relatedProduct.push(item);
             });
@@ -110,6 +149,7 @@ export default new Vuex.Store({
           }
         })
         .then(response => {
+          state.productTotal = response.data.total;
           cartBadget.classList.add("swing");
           cartBadgetSeconde.classList.add("swing");
           // cartBadgetValue.textContent += 1
@@ -117,9 +157,12 @@ export default new Vuex.Store({
             cartBadget.classList.remove("swing");
             cartBadgetSeconde.classList.remove("swing");
           }, 1000);
+
           if (!response.data.exist) {
             state.numberOfProduct += 1;
           }
+
+          state.productQtyValue = 1
 
           console.log(response.data.msg);
         })
@@ -128,29 +171,44 @@ export default new Vuex.Store({
         });
     },
 
-    fetchCartContent(state, userId) {
+    fetchCartContent(state, param) {
       let self = this;
       axios
         .get(`${state.HOST}/cart/cart_content/`, {
           params: {
-            shoppingSession: userId
+            shoppingSession: param.userId
           }
         })
         .then(response => {
-          if (state.cartContent.length == 0) {
-            response.data.forEach(item => {
-              state.cartContent.push(item);
+          state.productTotal = response.data.total;
+          if (param.arr == 0) {
+            response.data.products.forEach(item => {
+              param.arr.push(item);
             });
 
-            state.cartContent.forEach(item => {
-              let multiply = item.fields.quantity * item.fields.price;
-              state.productSum.push(multiply);
-            });
-            state.productTotal = state.productSum.reduce(function(total, num) {
-              return total + num;
-            });
+            // param.arr.forEach(item => {
+            //  let multiply = item.fields.quantity * item.fields.price;
+            //  state.productSum.push(multiply);
+            // });
           }
-          console.log(response.data);
+
+          // console.log(response.data.total);
+
+          if (state.cartContent.length == 0) {
+            // response.data.products.forEach(item => {
+            //   state.cartContent.push(item);
+            // });
+            // state.cartContent.forEach(item => {
+            //   let multiply = item.fields.quantity * item.fields.price;
+            //   state.productSum.push(multiply);
+            // });
+          }
+          // state.productTotal = state.productSum.reduce(function(total, num) {
+          //     return total + num;
+          // });
+          // for (let i = 0; i < state.productSum.length; i++) {
+          //   state.productTotal += state.productSum[i]
+          // }
         })
         .catch(error => {
           console.log(error);
@@ -158,17 +216,21 @@ export default new Vuex.Store({
     },
 
     updateCart(state, param) {
-      axios.get(`${state.HOST}/cart/update_cart/`, {
+      axios
+        .get(`${state.HOST}/cart/update_cart/`, {
           params: {
             newQty: param.newQty,
             productId: param.productId,
             shoppingSession: param.userId
           }
-      }).then(response => {
-        console.log(response.data)
-      }).catch(error => {
-        console.log(error)
-      })
+        })
+        .then(response => {
+          // state.productTotal = response.data.total
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     removeToCart(state, productId) {},
@@ -234,10 +296,10 @@ export default new Vuex.Store({
       });
     },
 
-    scrollTopAnimation(){
-      let scrollValue = document.documentElement.scrollTop
+    scrollTopAnimation() {
+      let scrollValue = document.documentElement.scrollTop;
       while (document.documentElement.scrollTop > 0) {
-        document.documentElement.scrollTop--
+        document.documentElement.scrollTop--;
       }
     }
   },
