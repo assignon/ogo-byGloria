@@ -7,7 +7,7 @@ cement==2.8.2
 certifi==2018.10.15
 chardet==3.0.4
 colorama==0.3.9
-Django==2.1.2
+Django==3.0.4
 django-bootstrap3==11.0.0
 django-environ==0.4.5
 django-modelcluster==4.2
