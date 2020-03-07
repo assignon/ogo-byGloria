@@ -46,7 +46,7 @@ export default new Vuex.Store({
           window.location.hostname +
           ":" +
           window.location.port + "/media"
-        : window.location.protocol + "//" + window.location.hostname + "/media",
+        : "https//" + window.location.hostname + "/media",
 
     cartDrawer: false, //cart nav drawer ctrl
 

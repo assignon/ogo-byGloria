@@ -66,7 +66,7 @@ MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 DISTFILES_LOCATION = 'frontend'
-DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+DEFAULT_FILE_STORAGE = 'custom_storages.DistStorage'
 
 LOCAL_APPS = [
     'products',
