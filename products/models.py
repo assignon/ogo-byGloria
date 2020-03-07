@@ -15,7 +15,11 @@ class Product(models.Model):
 
 class Product_imgs(models.Model):
     images = models.ImageField(upload_to='product/thumbmail')
+    # @property
+    # def image_name(self):
+    #     name = str(self.images)
+    #     return name
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.images
+        return str(self.images)
