@@ -2,7 +2,7 @@
   <div class="paymenthods-core">
     <v-layout justify-center align-center class="paymethods-layout">
 
-      <v-flex xs10 sm10 md6 lg6 xl6 class="cartinfo-flex pt-5 pb-5">
+      <v-flex xs12 sm12 md6 lg6 xl6 class="cartinfo-flex pt-5 pb-5">
         <v-icon large color="#8B53FF" style="margin-top: 50px;" class="">fas fa-shopping-basket</v-icon>
         <p style="margin: auto; margin-top: 0px;" class="font-weight-bold mb-5 mt-2">
           Contenu de votre panier <span>(€</span>
@@ -31,7 +31,7 @@
         </div>
       </v-flex>
 
-      <v-flex xs10 sm10 md6 lg6 xl6 class="paymethods-flex pt-5 pb-5">
+      <v-flex xs12 sm12 md6 lg6 xl6 class="paymethods-flex pt-5 pb-5">
         <v-icon large color="white">fas fa-credit-card</v-icon>
         <p style="margin: auto; margin-bottom: 20px;color: white;" class="font-weight-bold">
           Choissisez votre moyen de paiement
@@ -199,5 +199,9 @@ export default {
 .paypal-pay:hover .v-icon, .master-pay:hover .v-icon
 {
   color: #8b54ff;
+}
+
+@media only screen and (max-width: 500px) {
+
 }
 </style>

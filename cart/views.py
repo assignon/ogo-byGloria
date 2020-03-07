@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+# from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate, get_user_model
+# from django.contrib.auth import login, authenticate, get_user_model
 from django.conf import settings
 # from django.contrib.auth.views import logout
-from django.utils.translation import ugettext as _
+# from django.utils.translation import ugettext as _
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.core import serializers
@@ -26,8 +26,7 @@ from rest_framework.status import (
 from .serializers import Cart_serializer
 from cart.models import Cart
 from products.models import Product
-
-from mollie.api.client import Client
+# from mollie.api.client import Client
 
 # Create your views here.
 
@@ -106,9 +105,16 @@ class Cart_view(viewsets.ModelViewSet):
     @csrf_exempt
     @action(methods=['get'], detail=False)
     def paid_method(self, request):
+        try:
+            from mollie.api.client import Client
+        except:
+            from pip._internal import main
+            main(['install', 'mollie.api.client'])
+            from mollie.api.client import Client
         mollie_client = Client()
         mollie_client.set_api_key('test_Cpf7MF9sAfpSmvnbqMRwuaFqBSRQF4')
         userid = request.query_params.get('userId')
+        redirect_url = "http://127.0.0.1:8000/order/3/" if settings.DEBUG else settings.ALLOWED_HOSTS[0]
         print(self.total(userid))
         payment = mollie_client.payments.create({
             'amount': {
@@ -117,7 +123,7 @@ class Cart_view(viewsets.ModelViewSet):
                 # 'value': '10.00'
             },
             'description': 'My first API payment',
-            "redirectUrl": "http://localhost:8080/order/3/",
+            "redirectUrl": redirect_url,
             # 'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
         })
 

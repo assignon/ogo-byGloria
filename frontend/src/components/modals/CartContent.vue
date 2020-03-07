@@ -5,7 +5,7 @@
     top
     right
     height="100vh"
-    width="45%"
+    :width="cartLen"
     temporary
     stateless
     class="cart-drawer"
@@ -55,7 +55,7 @@
                   class="product-img"
                 ></div>
               </div>
-              <div class="tables" style="width: 70%;">
+              <div class="tables hidden-sm-and-down" style="width: 70%;">
                 <p class="mt-5 font-weight-bold" style="">
                   {{ product.fields.name }}
                 </p>
@@ -74,7 +74,7 @@
             </div>
             <div
               class="tables mr-5"
-              style="width: 20%;justify-content: flex-end;"
+              style="justify-content: flex-end;"
             >
               <p class="qty-price font-weight-bold mt-5">
                 <span>€</span>
@@ -172,7 +172,8 @@ export default {
       cartcontent: true, //false ? cart is empty : cart is't empty
       group: null,
       cartCount: this.$store.state.numberOfProduct,
-      productQty: 1
+      productQty: 1,
+      cartLen: "45%"
       // drawer: false
       // newQty: 1
     };
@@ -186,6 +187,10 @@ export default {
 
   created() {
 
+  },
+
+  mounted() {
+    this.mobileCartLen()
   },
 
   methods: {
@@ -216,7 +221,7 @@ export default {
 
       //remove in db
       this.$axios
-        .get(`${this.$store.state.HOST}/cart/remove_to_cart/`, {
+        .get(`${this.$store.state.HOST}/api/cart/remove_to_cart/`, {
           params: {
             productId: productId,
             userId: (this.$session.get('auth')) ? this.$session.get('userId') : this.$session.get("shoppingSession")
@@ -269,6 +274,13 @@ export default {
       }
     },
 
+    mobileCartLen(){
+      let windowLen = window.outerWidth
+      if(windowLen < 800){
+        this.cartLen = "100%"
+      }
+    },
+
     closeCart(){
       this.$store.state.cartDrawer = false
       this.cartcontent.length = 0
@@ -299,7 +311,7 @@ export default {
 }
 
 .cart-drawer {
-  /*width: 100%;*/
+  /*width: 70%;*/
   /* height: auto; */
   display: flex;
   flex-direction: column;
@@ -479,12 +491,42 @@ export default {
   .cart-content-core {
     width: 100%;
     right: 0px;
+    overflow-x: hidden;
   }
 
-  .img-name {
-    flex-direction: column;
-    width: 40%;
-    align-items: center;
+  .cart-drawer{
+    width: 100%;
   }
+
+  .close-cart{
+    right: 110px;
+    top: 1px;
+  }
+
+  .cart-content-flex{
+    width: 90%;
+    border: 1px solid blue;
+  }
+
+  .img-name{
+    width: 20%;
+    border: 1px solid red;
+  }
+
+  .product-img{
+    width: 70px;
+    height: 50px;
+  }
+
+  .tables{
+    width: 10%;
+    border: 1px solid yellow;
+  }
+
+  /*.img-name {*/
+  /*  flex-direction: column;*/
+  /*  width: 40%;*/
+  /*  align-items: center;*/
+  /*}*/
 }
 </style>

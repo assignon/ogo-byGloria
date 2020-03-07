@@ -11,11 +11,11 @@ class Product(models.Model):
     posted_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return 'Nom du produit: {0}'.format(self.product_name)
+        return self.product_name
 
 class Product_imgs(models.Model):
     images = models.ImageField(upload_to='product/thumbmail')
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Nom du produit: {0}'.format(self.images)
+        return self.images

@@ -1,7 +1,7 @@
 <template>
   <div class="order-core animated fadeIn">
     <v-layout justify-center align-center class="stepper-layout">
-      <v-flex xs10 sm10 md10 lg10 xl10 class="stepper-flex">
+      <v-flex xs12 sm12 md10 lg10 xl10 class="stepper-flex">
         <v-stepper
           v-model="step"
           class="stepper-container"
@@ -215,8 +215,10 @@
 
             <v-stepper-content step="3">
               <h1>Votre paiement a ete recu</h1>
-              <p>un email de confirmation est envoye a {{email}} ou vous trouverez tous les details
-                et informatios sur otre ommande v</p>
+              <p>
+                un email de confirmation est envoye a {{ email }} ou vous
+                trouverez tous les details et informatios sur otre ommande v
+              </p>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
@@ -256,7 +258,7 @@ export default {
       city: "",
       streetNumber: "",
       cartItems: [],
-      paymentRedirectLink: ''
+      paymentRedirectLink: ""
     };
   },
 
@@ -298,21 +300,21 @@ export default {
     },
 
     purchase() {
-      let self = this
+      let self = this;
       let userId = this.$session.get("auth")
         ? this.$session.get("userId")
         : this.$session.get("shoppingSession");
-      console.log('product total: ',this.$store.state.productTotal)
+      console.log("product total: ", this.$store.state.productTotal);
       this.$axios
-        .get(`${this.$store.state.HOST}/cart/paid_method/`, {
+        .get(`${this.$store.state.HOST}/api/cart/paid_method/`, {
           params: {
             userId: userId
           }
         })
         .then(response => {
-          let res = response.data
+          let res = response.data;
           console.log(res);
-          self.paymentRedirectLink = res._links.checkout.href
+          self.paymentRedirectLink = res._links.checkout.href;
         })
         .catch(error => {
           console.log(error);
@@ -430,5 +432,44 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+}
+
+.purchase{
+  width: 100%;
+}
+
+@media only screen and (max-width: 500px) {
+  .stepper-container {
+    margin-top: 60px;
+  }
+
+  .v-stepper__wrapper{
+    width: 100%;
+    border: 1px solid red;
+  }
+
+  .v-stepper__content{
+    padding: 0px;
+  }
+
+  .steps-content{
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .order-form {
+    flex-direction: column;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .personal-form,
+  .adress-form {
+    width: 100%;
+  }
+
+  .sign-btn{
+    margin-left: 70px;
+  }
 }
 </style>

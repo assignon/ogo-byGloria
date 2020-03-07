@@ -7,26 +7,49 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    HOST:
-      window.location.hostname == "localhost"
-        ? "http://127.0.0.1:8000"
-        : "https://yanick007.pythonanywhere.com",
+    // HOST:
+    //   window.location.hostname == "127.0.0.1"
+    //     ? "http://127.0.0.1:8000"
+    //     : "https://yanick007.pythonanywhere.com",
+
+    // MEDIA_ROOT:
+    //   window.location.hostname == "127.0.0.1"
+    //     ? "http://127.0.0.1:8000/media"
+    //     : "https://yanick007.pythonanywhere.com/media",
+
     //facebook twitter etc...
-    SHARE_HOST:
-      window.location.hostname == "localhost"
-        ? "127.0.0.1:8000"
-        : "yanick007.pythonanywhere.com",
+    // SHARE_HOST:
+    //   window.location.hostname == "127.0.0.1"
+    //     ? "127.0.0.1:8000"
+    //     : "yanick007.pythonanywhere.com",
+
     DOMAIN:
       window.location.protocol +
       "//" +
       window.location.hostname +
       ":" +
       window.location.port,
-    cartDrawer: false, //cart nav drawer ctrl
+
+    HOST:
+      window.location.port != ""
+        ? window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          window.location.port
+        : window.location.protocol + "//" + window.location.hostname,
+
     MEDIA_ROOT:
-      window.location.hostname == "localhost"
-        ? "http://127.0.0.1:8000/media"
-        : "https://yanick007.pythonanywhere.com/media",
+      window.location.port != ""
+        ? window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          window.location.port + "/media"
+        : window.location.protocol + "//" + window.location.hostname + "/media",
+
+    cartDrawer: false, //cart nav drawer ctrl
+
     AUTHENTICATED: undefined,
     userId: undefined,
     shoppingId: undefined, //temporary id when user is not logged and destroy when the user logged of purchase
@@ -44,7 +67,7 @@ export default new Vuex.Store({
   mutations: {
     authSession(state) {
       axios
-        .get(`${state.HOST}/account/auth_session/`)
+        .get(`${state.HOST}/api/account/auth_session/`)
         .then(response => {
           state.AUTHENTICATED = response.data;
           console.log(response.data);
@@ -68,7 +91,7 @@ export default new Vuex.Store({
       // let currentProduct = productId;
       let currentProduct = productId.split("-");
       axios
-        .get(`${state.HOST}/product/product_description/`, {
+        .get(`${state.HOST}/api/product/product_description/`, {
           params: {
             productId: currentProduct[1]
           }
@@ -82,26 +105,25 @@ export default new Vuex.Store({
         });
     },
 
-    productsImgs(state, param){
+    productsImgs(state, param) {
       let self = this;
       axios
-        .get(`${state.HOST}/product/product_thumbmail/`, {
+        .get(`${state.HOST}/api/product/product_thumbmail/`, {
           params: {
             productId: param.prodid
           }
         })
         .then(response => {
-
-          if(param.arr.length != 0){
-            param.arr.length = 0
+          if (param.arr.length != 0) {
+            param.arr.length = 0;
           }
 
           response.data.forEach(item => {
-              param.arr.push(item)
-          })
+            param.arr.push(item);
+          });
           // state.thumbmailsArr.push(response.data)
 
-          console.log(param.arr)
+          console.log(param.arr);
           console.log(response.data);
         })
         .catch(error => {
@@ -113,7 +135,7 @@ export default new Vuex.Store({
       let self = this;
       let currentProduct = productId.split("-");
       axios
-        .get(`${state.HOST}/product/related_product/`, {
+        .get(`${state.HOST}/api/product/related_product/`, {
           params: {
             productId: currentProduct[1]
           }
@@ -141,7 +163,7 @@ export default new Vuex.Store({
       let cartBadget = document.querySelector(".cart-badget");
       let cartBadgetSeconde = document.querySelector(".cart-badget-seconde");
       axios
-        .get(`${state.HOST}/cart/add_to_cart/`, {
+        .get(`${state.HOST}/api/cart/add_to_cart/`, {
           params: {
             productId: currentProduct[1],
             quantity: productData.quantity,
@@ -162,7 +184,7 @@ export default new Vuex.Store({
             state.numberOfProduct += 1;
           }
 
-          state.productQtyValue = 1
+          state.productQtyValue = 1;
 
           console.log(response.data.msg);
         })
@@ -174,7 +196,7 @@ export default new Vuex.Store({
     fetchCartContent(state, param) {
       let self = this;
       axios
-        .get(`${state.HOST}/cart/cart_content/`, {
+        .get(`${state.HOST}/api/cart/cart_content/`, {
           params: {
             shoppingSession: param.userId
           }
@@ -217,7 +239,7 @@ export default new Vuex.Store({
 
     updateCart(state, param) {
       axios
-        .get(`${state.HOST}/cart/update_cart/`, {
+        .get(`${state.HOST}/api/cart/update_cart/`, {
           params: {
             newQty: param.newQty,
             productId: param.productId,

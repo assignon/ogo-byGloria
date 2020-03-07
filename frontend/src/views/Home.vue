@@ -6,7 +6,7 @@
       hide-arrows-background
       show-arrows-on-hover
       interval="5000"
-      height="500"
+      height="550"
       class="home-slider"
     >
       <v-carousel-item v-for="(img, i) in sliderImgs" :key="i">
@@ -107,9 +107,8 @@ export default {
         },
         {
           name: "Pochette Hilary",
-          src: require("../assets/slider/prod4.jpeg")
+          src: require("../assets/slider/prod5.jpeg")
         },
-        { name: "Pochette Hilary", src: require("../assets/slider/prod5.jpeg") }
       ]
     };
   },
@@ -126,7 +125,7 @@ export default {
     getProducts() {
       let self = this;
       this.$axios
-        .get(`${this.$store.state.HOST}/product/all_products/`, {})
+        .get(`${this.$store.state.HOST}/api/product/all_products/`, {})
         .then(response => {
           if (self.$store.state.allProducts.length === 0) {
             response.data.forEach(product => {
@@ -166,7 +165,8 @@ export default {
 
 .home-core .home-slider {
   width: 90%;
-  border-radius: 5px;
+  /*border-radius: 5px;*/
+  border: 1px solid black;
 }
 
 .home-slider-imgs {
@@ -181,7 +181,7 @@ export default {
 
 .home-slider-imgs h3 {
   text-align: left;
-  color: #8b53ff;
+  color: #6741CA;
   margin-left: 50px;
   margin-bottom: 50px;
 }

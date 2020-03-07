@@ -47,7 +47,7 @@ export default {
         getBags() {
 
             let self = this
-            this.$axios.get(`${this.$store.state.HOST}/product/bags/`, {
+            this.$axios.get(`${this.$store.state.HOST}/api/product/bags/`, {
 
             }).then(response => {
 

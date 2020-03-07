@@ -7,7 +7,7 @@
       }"
       @mouseover="displayIcons()"
       @mouseout="hideIcons()"
-      @click.stop="
+      @click="
         $router.push(`/product/${productName}-${productId}`),
           thumbmails(),
           $store.commit('productDescription', $route.params.id),
@@ -20,7 +20,7 @@
           <div
             v-on="on"
             :id="productId"
-            @click="addtoCart(productName + '-' + productId)"
+            @click.stop="addtoCart(productName + '-' + productId)"
             class="icon-container animated"
           >
             <v-icon>fas fa-cart-plus</v-icon>
@@ -34,7 +34,7 @@
           <div
             v-on="on"
             :id="productId"
-            @click="
+            @click.stop="
               $router.push(`/product/${productName}-${productId}`),
                 thumbmails(),
                 $store.commit('productDescription', $route.params.id),
@@ -81,7 +81,7 @@
           <div
             v-on="on"
             :id="productId"
-            @click="likeProduct()"
+            @click.stop="likeProduct()"
             class="icon-container animated"
           >
             <v-icon>fas fa-heart</v-icon>
@@ -275,7 +275,7 @@ export default {
   align-items: center;
   border-radius: 100%;
   /* margin: 5px; */
-  border: 1px solid #eeeeee;
+  /*border: 1px solid #eeeeee;*/
   /* background-color: #F5F5F5; */
 }
 
@@ -287,6 +287,7 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
+  color: #8B53FF;
 }
 
 .share-container .socials {
@@ -295,7 +296,7 @@ export default {
 
 .icon-container .v-icon:hover {
   transform: scale(1.1, 1.1);
-  color: #8B53FF;
+  /*color: #8B53FF;*/
 }
 
 .product .product-src .v-icon {

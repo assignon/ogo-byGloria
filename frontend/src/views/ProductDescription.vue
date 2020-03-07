@@ -375,7 +375,7 @@ export default {
 
 .product-img {
   display: flex;
-  /* flex-direction: column; */
+   /*flex-direction: column;*/
   /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
@@ -386,7 +386,7 @@ export default {
 
 .product-overlay {
   width: 80%;
-  height: 400px;
+  height: 450px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -402,7 +402,7 @@ export default {
 
 .sub-img {
   width: 20%;
-  height: 400px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -430,13 +430,13 @@ export default {
 }
 
 .product-desc {
-  width: auto;
-  height: 400px;
+  width: 100%;
+  height: 450px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  margin-right: 70px;
+  margin-left: 15px;
 }
 
 .name-price {
@@ -668,6 +668,10 @@ export default {
     margin-top: 100px;
   }
 
+  .desc-layout{
+    width: 100%;
+  }
+
   .product-detail-flex {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -698,6 +702,37 @@ export default {
 
   .tab-flex {
     width: 90%;
+  }
+
+  .product-img{
+    flex-direction: column-reverse;
+  }
+
+  .product-overlay{
+    width: 100%;
+    height: 350px;
+  }
+
+  .sub-img{
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 15px;
+    width: 100%;
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: scroll;
+  }
+
+  .sub-img div{
+    margin-bottom: 0px;
+  }
+
+  .product-desc{
+    margin-left: 0px;
+  }
+
+  .tab-container{
+    width: 100%;
   }
 }
 

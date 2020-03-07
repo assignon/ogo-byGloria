@@ -360,7 +360,7 @@ export default {
       let self = this;
 
       this.$axios
-        .get(`${this.$store.state.HOST}/cart/cart_count/`, {
+        .get(`${this.$store.state.HOST}/api/cart/cart_count/`, {
           params: {
             shoppingSession: self.$session.get("shoppingSession") //shoppingsession / userId change to real userId when the user is logged
           }
@@ -621,8 +621,9 @@ export default {
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
   position: fixed;
   top: 0px;
-  right: 12px;
+  left: 2px;
   z-index: 3;
+  overflow-x: hidden;
 }
 
 .burgermenu-flex {

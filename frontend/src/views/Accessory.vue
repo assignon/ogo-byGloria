@@ -46,7 +46,7 @@ export default {
     getAccessories() {
 
       let self = this
-      this.$axios.get(`${this.$store.state.HOST}/product/accessories/`, {
+      this.$axios.get(`${this.$store.state.HOST}/api/product/accessories/`, {
 
       }).then(response => {
 

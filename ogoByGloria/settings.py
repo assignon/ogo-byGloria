@@ -28,9 +28,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'j+j%1=_nx51!uc9#ue=)ns7(fjghww@^%hc!&&msrlc04y3a&&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ogobyGloria-env.eba-p9jjxasc.us-west-2.elasticbeanstalk.com', '*']
 
 
 # Application definition
@@ -72,10 +72,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ogoByGloria.urls'
 
+# Vue project location
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
+# Vue assets directory (assetsDir)
+STATICFILES_DIRS = [
+    os.path.join(FRONTEND_DIR, 'dist/static'),
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(FRONTEND_DIR, 'dist'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,14 +110,26 @@ WSGI_APPLICATION = 'ogoByGloria.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ogoByGloria',
-        'USER': 'root',
-        'PASSWORD': ''
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'ogoByGloria',
+            'USER': 'root',
+            'PASSWORD': ''
+        }
+    }
 
 
 # CACHES = {
@@ -157,10 +176,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 # MEDIA_ROOT = str(APPS_DIR('media'))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
