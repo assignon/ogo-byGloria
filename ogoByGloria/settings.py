@@ -49,7 +49,21 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'storages',
 ]
+
+AWS_STORAGE_BUCKET_NAME = 'ogo-bygloria-s3'
+AWS_S3_REGION_NAME = 'us-west-2'  # e.g. us-east-2
+AWS_ACCESS_KEY_ID = 'AKIAUE7EI6BUZL5U2X7U'
+AWS_SECRET_ACCESS_KEY = 'iYpbWUXR9OVizeZsvzAYRFIUFfeVyCNbRTADDb/0'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_DEFAULT_ACL = None
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+
+MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 LOCAL_APPS = [
     'products',
