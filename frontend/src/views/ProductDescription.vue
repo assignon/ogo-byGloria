@@ -13,7 +13,7 @@
           <div
             class="product-overlay animated zoomIn"
             :style="{
-              backgroundImage: `url(${$store.state.HOST}${
+              backgroundImage: `url(${$store.state.MEDIA_ROOT}/${
                 $store.state.viewedProduct.product_image
               })`
             }"

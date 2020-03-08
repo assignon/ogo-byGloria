@@ -29,7 +29,7 @@ SECRET_KEY = 'j+j%1=_nx51!uc9#ue=)ns7(fjghww@^%hc!&&msrlc04y3a&&'
 SECRET_KEY = 'j+j%1=_nx51!uc9#ue=)ns7(fjghww@^%hc!&&msrlc04y3a&&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['ogobyGloria-env.eba-p9jjxasc.us-west-2.elasticbeanstalk.com', '*']
 

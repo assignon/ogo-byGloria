@@ -308,7 +308,8 @@ export default {
       this.$axios
         .get(`${this.$store.state.HOST}/api/cart/paid_method/`, {
           params: {
-            userId: userId
+            userId: userId,
+            url: window.location.hostname
           }
         })
         .then(response => {

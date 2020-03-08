@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User
 # from django.contrib.auth import login, authenticate, get_user_model
 from django.conf import settings
+from django.urls import resolve
 # from django.contrib.auth.views import logout
 # from django.utils.translation import ugettext as _
 from django.http import HttpResponse, JsonResponse
@@ -111,10 +112,11 @@ class Cart_view(viewsets.ModelViewSet):
             from pip._internal import main
             main(['install', 'mollie.api.client'])
             from mollie.api.client import Client
+        url = request.query_params.get('url') #hostname send from frontend
         mollie_client = Client()
         mollie_client.set_api_key('test_Cpf7MF9sAfpSmvnbqMRwuaFqBSRQF4')
         userid = request.query_params.get('userId')
-        redirect_url = "http://127.0.0.1:8000/order/3/" if settings.DEBUG else settings.ALLOWED_HOSTS[0]
+        redirect_url = "http://127.0.0.1:8000/order/3/" if url == "127.0.0.1" else "http://"+settings.ALLOWED_HOSTS[0]+"/order/3/"
         print(self.total(userid))
         payment = mollie_client.payments.create({
             'amount': {
