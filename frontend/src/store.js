@@ -37,7 +37,7 @@ export default new Vuex.Store({
           window.location.hostname +
           ":" +
           window.location.port
-        : window.location.protocol + "//" + window.location.hostname,
+        : "https//" + window.location.hostname,
 
     MEDIA_ROOT:
       window.location.port != ""
