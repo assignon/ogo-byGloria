@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: {
       '^/': {
-        target: 'http://127.0.0.1:8000/',
+        target: 'http://ogobygloria-env.eba-p9jjxasc.us-west-2.elasticbeanstalk.com/cd',
         ws: false,
       }
     }

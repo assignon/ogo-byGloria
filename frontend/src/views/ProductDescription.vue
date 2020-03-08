@@ -282,7 +282,7 @@ export default {
     this.$store.commit("productDescription", this.$route.params.id);
     this.$store.commit("relatedProduct", this.$route.params.id);
     console.log(this.$store.state.relatedProduct.length);
-    alert(this.$store.state.MEDIA_ROOT)
+    // alert(this.$store.state.MEDIA_ROOT)
   },
 
   mounted() {

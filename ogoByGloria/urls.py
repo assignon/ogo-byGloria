@@ -40,5 +40,6 @@ urlpatterns = [
     path('order/<int:step>/', views.order, name='order'),
 
 ]+ static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT,
+    # settings.STATIC_URL, document_root=settings.STATIC_ROOT
 )
