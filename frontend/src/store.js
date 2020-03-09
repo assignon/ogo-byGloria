@@ -7,15 +7,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    HOST:
-      window.location.hostname != "127.0.0.1"
-        ? "http://127.0.0.1:8000"
-        : "https://yanick007.pythonanywhere.com",
-
-    MEDIA_ROOT:
-      window.location.hostname != "127.0.0.1"
-        ? "http://127.0.0.1:8000/media"
-        : "https://yanick007.pythonanywhere.com/media",
+    // HOST:
+    //   window.location.hostname != "127.0.0.1"
+    //     ? "http://127.0.0.1:8000"
+    //     : "https://yanick007.pythonanywhere.com",
+    //
+    // MEDIA_ROOT:
+    //   window.location.hostname != "127.0.0.1"
+    //     ? "http://127.0.0.1:8000/media"
+    //     : "https://yanick007.pythonanywhere.com/media",
 
     //facebook twitter etc...
     // SHARE_HOST:
@@ -30,23 +30,23 @@ export default new Vuex.Store({
       ":" +
       window.location.port,
 
-    // HOST:
-    //   window.location.port != ""
-    //     ? window.location.protocol +
-    //       "//" +
-    //       window.location.hostname +
-    //       ":" +
-    //       window.location.port
-    //     : window.location.protocol + "//" + window.location.hostname,
-    //
-    // MEDIA_ROOT:
-    //   window.location.port != ""
-    //     ? window.location.protocol +
-    //       "//" +
-    //       window.location.hostname +
-    //       ":" +
-    //       window.location.port + "/media"
-    //     : "https://ogo-bygloria-s3.s3.amazonaws.com/media",
+    HOST:
+      window.location.port != ""
+        ? window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          window.location.port
+        : window.location.protocol + "//" + window.location.hostname,
+
+    MEDIA_ROOT:
+      window.location.port != ""
+        ? window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          window.location.port + "/media"
+        : "https://ogo-bygloria-s3.s3.amazonaws.com/media",
 
     cartDrawer: false, //cart nav drawer ctrl
 
