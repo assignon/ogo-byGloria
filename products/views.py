@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.core import serializers
+from django.db.models import Q
 import json
 # from django.contrib.auth.hashers import make_password
 ################################## DRF IMPORTS #######################################
@@ -26,7 +27,7 @@ from rest_framework.status import (
 )
 
 from .serializers import Product_serializer
-from products.models import Product, Product_imgs
+from products.models import Product, Product_imgs, Like
 # Create your views here.
 
 class Product_view(viewsets.ModelViewSet):
@@ -94,6 +95,28 @@ class Product_view(viewsets.ModelViewSet):
         data = serializers.serialize('json', relatedproduct, fields=('id', 'product_name', 'product_image', 'product_price', 'likes', 'posted_on'))
         return Response(json.loads(data))
 
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def add_likes(self, request):
+        product_id = request.query_params.get('productId')
+        user_id = request.query_params.get('userId')
+        liked = Like.objects.filter(Q(user_id=user_id) & Q(product_id=product_id))
+        if liked.count() == 0:
+            # Like.add_like(user_id, product_id)
+            Like.objects.get_or_create(user_id=user_id, product_id_id=product_id)
+            get_prod_like = Product.objects.get(id=product_id).likes
+            Product.objects.filter(id=product_id).update(likes=get_prod_like+1)
+            data = {'liked': False, 'likes': Product.objects.get(id=product_id).likes}
+        else:
+            data = {'liked': True, 'likes': 'Vous avez deja liker ce produit.'}
+        return Response(data)
+
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def get_likes(self, request):
+        product_id = request.query_params.get('productId')
+        get_prod_like = Product.objects.get(id=product_id).likes
+        return Response(get_prod_like)
 
 
 # def all_product(request):

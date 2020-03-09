@@ -4,6 +4,7 @@
     <v-content>
 
       <SigninModal/>
+      <Notification/>
 <!--      <CartContent/>-->
       <Nav/>
       <router-view class="animated fadeIn"></router-view>
@@ -19,6 +20,7 @@ import Nav from './components/layouts/Nav';
 import Footer from './components/layouts/Footer';
 import SigninModal from './components/modals/SigninModal';
 import CartContent from './components/modals/CartContent';
+import Notification from './components/modals/Notification';
 
 export default {
 
@@ -29,6 +31,7 @@ export default {
     Footer,
     SigninModal,
     CartContent,
+    Notification,
   },
 
   data: () => ({

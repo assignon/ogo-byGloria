@@ -7,15 +7,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // HOST:
-    //   window.location.hostname == "127.0.0.1"
-    //     ? "http://127.0.0.1:8000"
-    //     : "https://yanick007.pythonanywhere.com",
+    HOST:
+      window.location.hostname != "127.0.0.1"
+        ? "http://127.0.0.1:8000"
+        : "https://yanick007.pythonanywhere.com",
 
-    // MEDIA_ROOT:
-    //   window.location.hostname == "127.0.0.1"
-    //     ? "http://127.0.0.1:8000/media"
-    //     : "https://yanick007.pythonanywhere.com/media",
+    MEDIA_ROOT:
+      window.location.hostname != "127.0.0.1"
+        ? "http://127.0.0.1:8000/media"
+        : "https://yanick007.pythonanywhere.com/media",
 
     //facebook twitter etc...
     // SHARE_HOST:
@@ -30,29 +30,30 @@ export default new Vuex.Store({
       ":" +
       window.location.port,
 
-    HOST:
-      window.location.port != ""
-        ? window.location.protocol +
-          "//" +
-          window.location.hostname +
-          ":" +
-          window.location.port
-        : window.location.protocol + "//" + window.location.hostname,
-
-    MEDIA_ROOT:
-      window.location.port != ""
-        ? window.location.protocol +
-          "//" +
-          window.location.hostname +
-          ":" +
-          window.location.port + "/media"
-        : window.location.protocol + "//" + window.location.hostname + "/media",
+    // HOST:
+    //   window.location.port != ""
+    //     ? window.location.protocol +
+    //       "//" +
+    //       window.location.hostname +
+    //       ":" +
+    //       window.location.port
+    //     : window.location.protocol + "//" + window.location.hostname,
+    //
+    // MEDIA_ROOT:
+    //   window.location.port != ""
+    //     ? window.location.protocol +
+    //       "//" +
+    //       window.location.hostname +
+    //       ":" +
+    //       window.location.port + "/media"
+    //     : "https://ogo-bygloria-s3.s3.amazonaws.com/media",
 
     cartDrawer: false, //cart nav drawer ctrl
 
     AUTHENTICATED: undefined,
     userId: undefined,
     shoppingId: undefined, //temporary id when user is not logged and destroy when the user logged of purchase
+    getuserId: '',
     allProducts: [],
     viewedProduct: undefined,
     relatedProduct: [],
@@ -61,7 +62,8 @@ export default new Vuex.Store({
     numberOfProduct: null, //number of product added to the cart
     productSum: [], // store the multiplication of the product price en qty
     productTotal: 0, // sum of all product in the cart
-    thumbmailsArr: []
+    thumbmailsArr: [],
+    likes: null
   },
 
   mutations: {
@@ -75,6 +77,16 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error);
         });
+    },
+
+    getUserId(state, session){
+      let userId
+      if (session.get("auth")) {
+        userId = session.get("userId");
+      } else {
+        userId = session.get("shoppingSession");
+      }
+      state.getuserId = userId
     },
 
     storeproducts(state, data) {
@@ -257,8 +269,43 @@ export default new Vuex.Store({
 
     removeToCart(state, productId) {},
 
-    addLike(state) {
-      alert("like added");
+    addLike(state, param) {
+      axios
+        .get(`${state.HOST}/api/product/add_likes/`, {
+          params: {
+            productId: param.productId,
+            userId: param.userId
+          }
+        })
+        .then(response => {
+          if (response.data.liked){
+            //already likes
+            console.log(response.data)
+          }else{
+            state.likes = response.data.likes
+            state.viewedProduct.likes = response.data.likes
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    getLikes(state, productId) {
+      let self = this;
+      axios
+        .get(`${state.HOST}/api/product/get_likes/`, {
+          params: {
+            productId: productId,
+          }
+        })
+        .then(response => {
+          state.likes = response.data
+          // console.log(response)
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     showModal(state, param) {

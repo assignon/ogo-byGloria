@@ -65,7 +65,7 @@
             :rules="emailRules"
             v-model="email"
             class="login-email animated"
-          ></v-text-field>
+          />
 
           <v-text-field
             :append-icon="show ? 'visibility' : 'visibility_off'"
@@ -80,7 +80,7 @@
             v-model="password"
             class="input-group--focused login-password animated"
             @click:append="show = !show"
-          ></v-text-field>
+          />
 
           <div class="password-forgot-container">
             <p @click="forgotPassword()">Mot de passe oublie?</p>

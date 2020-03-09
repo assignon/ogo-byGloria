@@ -15,7 +15,7 @@
           $store.commit('scrollTopAnimation')
       "
     >
-      <v-tooltip left color="#000">
+      <v-tooltip left color="#fff">
         <template v-slot:activator="{ on }">
           <div
             v-on="on"
@@ -26,10 +26,10 @@
             <v-icon>fas fa-cart-plus</v-icon>
           </div>
         </template>
-        <span>Ajouter au panier</span>
+        <span class="likes-tooltip">Ajouter au panier</span>
       </v-tooltip>
 
-      <v-tooltip left color="#000">
+      <v-tooltip left color="#fff">
         <template v-slot:activator="{ on }">
           <div
             v-on="on"
@@ -46,10 +46,10 @@
             <v-icon>fas fa-eye</v-icon>
           </div>
         </template>
-        <span>Apercu rapide</span>
+        <span class="likes-tooltip">Apercu rapide</span>
       </v-tooltip>
 
-      <v-tooltip left color="#000">
+      <v-tooltip left color="#fff">
         <template v-slot:activator="{ on }">
           <div
             v-on="on"
@@ -73,21 +73,33 @@
             <div><v-icon>fas fa-share-alt</v-icon></div>
           </div>
         </template>
-        <span>partager</span>
+        <span class="likes-tooltip">partager</span>
       </v-tooltip>
 
-      <v-tooltip left color="#000">
+      <v-tooltip class="tooltip-container" left color="#fff">
         <template v-slot:activator="{ on }">
           <div
             v-on="on"
             :id="productId"
-            @click.stop="likeProduct()"
+            @click.stop="
+              $store.commit('addLike', {
+                productId: productId,
+                userId: $store.state.getuserId
+              }),
+                $store.commit('showModal', {
+                  modalId: 'notificationModal',
+                  top: '70px'
+                })
+            "
+            @mouseover="$store.commit('getLikes', productId)"
             class="icon-container animated"
           >
             <v-icon>fas fa-heart</v-icon>
           </div>
         </template>
-        <span>Likes: </span>
+        <span class="likes-tooltip" :name="productId">{{
+          $store.state.likes
+        }}</span>
       </v-tooltip>
     </div>
     <p class="mt-2">{{ productName }}</p>
@@ -119,15 +131,22 @@ export default {
   },
 
   created() {
-    this.$store.commit('productsImgs', {prodid: this.$route.params.id.split("-")[1], arr: this.thumbmailsArr})
+    this.$store.commit("productsImgs", {
+      prodid: this.$route.params.id.split("-")[1],
+      arr: this.thumbmailsArr
+    });
   },
 
-  mounted(){
+  mounted() {
+    this.$store.commit("getUserId", this.$session);
   },
 
   methods: {
     thumbmails() {
-      this.$store.commit('productsImgs', {prodid: this.productId, arr: this.thumbmailsArr})
+      this.$store.commit("productsImgs", {
+        prodid: this.productId,
+        arr: this.thumbmailsArr
+      });
     },
 
     displayIcons() {
@@ -172,17 +191,6 @@ export default {
           productId: productId,
           quantity: 1,
           userId: this.$session.get("shoppingSession")
-        });
-      }
-    },
-
-    likeProduct() {
-      if (this.$session.get("auth")) {
-        this.$store.commit("addLike");
-      } else {
-        this.$store.commit("showModal", {
-          modalId: "loginModal",
-          top: "100px"
         });
       }
     },
@@ -287,7 +295,7 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 20px;
-  color: #8B53FF;
+  color: #8b53ff;
 }
 
 .share-container .socials {
@@ -311,6 +319,11 @@ export default {
   text-align: left;
   margin: 0px;
   color: black;
+}
+
+.likes-tooltip {
+  color: #8b53ff;
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 500px) {

@@ -4,16 +4,21 @@
       <v-flex xs12 sm7 md7 lg7 xl7 class="product-desc-flex">
         <div class="product-img">
           <div class="sub-img">
-            <div v-for="(thumb, i) in thumbmailsArr"
+            <div
+              v-for="(thumb, i) in thumbmailsArr"
               :key="i"
-              :style="{backgroundImage: `url(${$store.state.MEDIA_ROOT}/${thumb.fields.images})`}"
+              :style="{
+                backgroundImage: `url(${$store.state.MEDIA_ROOT}/${
+                  thumb.fields.images
+                })`
+              }"
               @click="viewImage(thumb.fields.images)"
             ></div>
           </div>
           <div
             class="product-overlay animated zoomIn"
             :style="{
-              backgroundImage: `url(${$store.state.MEDIA_ROOT}/${
+              backgroundImage: `url(${
                 $store.state.viewedProduct.product_image
               })`
             }"
@@ -95,12 +100,14 @@
               <div class="likes pl-1 pr-1">
                 <v-icon
                   @click="
-                    $session.get('auth')
-                      ? $store.commit('addLike')
-                      : $store.commit('showModal', {
-                          modalId: 'loginModal',
-                          top: '100px'
-                        })
+                    $store.commit('addLike', {
+                      productId: $route.params.id.split('-')[1],
+                      userId: $store.state.getuserId
+                    }),
+                      $store.commit('showModal', {
+                        modalId: 'notificationModal',
+                        top: '70px'
+                      })
                   "
                   >fas fa-heart</v-icon
                 >
@@ -153,7 +160,7 @@
               color="#8B53FF"
               flat
               style="line-height: 22px;"
-            ></v-textarea>
+            />
             <div
               style="display:flex; justify-content: space-between; align-items: flex-start; width:100%;height:auto;"
             >
@@ -169,14 +176,7 @@
                 flat
                 medium
                 color="#8B53FF"
-                @click="
-                  $session.get('auth')
-                    ? addComment()
-                    : $store.commit('showModal', {
-                        modalId: 'loginModal',
-                        top: '100px'
-                      })
-                "
+                @click="addComment()"
               >
                 <v-icon small left color="white">fas fa-paper-plane</v-icon>
                 <span class="white--text">Poster</span>
@@ -193,16 +193,23 @@
             <div class="comments mt-5"></div>
           </v-tab-item>
 
-          <v-tab-item class="tab-item pt-3 pb-3 mb-5 ml-5" style="background-color: transparent;border-top: 2px solid #eee">
-            Avec Ogo By Gloria vous avez la possibilité de payer par mastercard, Visa et PayPal.
-            A vous de faire votre choix
+          <v-tab-item
+            class="tab-item pt-3 pb-3 mb-5 ml-5"
+            style="background-color: transparent;border-top: 2px solid #eee"
+          >
+            Avec Ogo By Gloria vous avez la possibilité de payer par mastercard,
+            Visa et PayPal. A vous de faire votre choix
           </v-tab-item>
 
-          <v-tab-item class="tab-item pt-3 pb-3 mb-5 ml-5" style="background-color: transparent;border-top: 2px solid #eee">
-            Livraison 4.95€<br>
-            Une fois votre commande validée , vous recevrez un message ou un mail.
-            La livraison sera offerte pour toute commande de plus de 60€<br>
-            Retour sous 5 jours<br>
+          <v-tab-item
+            class="tab-item pt-3 pb-3 mb-5 ml-5"
+            style="background-color: transparent;border-top: 2px solid #eee"
+          >
+            Livraison 4.95€<br />
+            Une fois votre commande validée , vous recevrez un message ou un
+            mail. La livraison sera offerte pour toute commande de plus de
+            60€<br />
+            Retour sous 5 jours<br />
             Déposez votre colis dans le bureau de poste le proche de chez vous.
             Votre retour sera traité dans un délai de 10 jours ouvrés.
           </v-tab-item>
@@ -272,7 +279,7 @@ export default {
       productQty: 1,
       active: null,
       sended: 0, //display comment field error if it sended
-      commentErrMsg: "Comment field error message",
+      commentErrMsg: "",
       commentFieldValue: "",
       thumbmailsArr: new Array()
     };
@@ -287,7 +294,7 @@ export default {
 
   mounted() {
     this.$store.commit("showMenus");
-    console.log(this.thumbmailsArr)
+    console.log(this.thumbmailsArr);
   },
 
   methods: {
@@ -328,16 +335,32 @@ export default {
       }
     },
 
-    viewImage(imgSrc){
-      let productOverlay = document.querySelector('.product-overlay')
-      productOverlay.style.backgroundImage = `url(${this.$store.state.MEDIA_ROOT}/${imgSrc})`
+    viewImage(imgSrc) {
+      let productOverlay = document.querySelector(".product-overlay");
+      productOverlay.style.backgroundImage = `url(${
+        this.$store.state.MEDIA_ROOT
+      }/${imgSrc})`;
     },
 
     // thumbmails(prodid){
     //   this.$store.commit('productsImgs', {prodid: prodid, arr: this.thumbmailsArr})
     // },
 
-    addComment() {}
+    addComment() {
+      if (this.commentFieldValue != "") {
+        this.$store.commit("addComment", {
+          productId: this.$route.params.id.split("-")[1],
+          userId: this.$store.state.getuserId,
+          comment: this.commentFieldValue
+        });
+        $store.commit("showModal", {
+          modalId: "notificationModal",
+          top: "70px"
+        });
+      } else {
+        this.commentErrMsg;
+      }
+    }
   }
 };
 </script>
@@ -347,7 +370,7 @@ export default {
   rel="stylesheet"
   type="text/css"
   src="../styles/productLayout.css"
-></style>
+/>
 <style scoped>
 .description-core {
   display: flex;
@@ -376,7 +399,7 @@ export default {
 
 .product-img {
   display: flex;
-   /*flex-direction: column;*/
+  /*flex-direction: column;*/
   /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
@@ -510,13 +533,13 @@ export default {
   padding: 0px;
   min-width: 0;
   height: 50px;
-  border: 1px solid #8B53FF;
+  border: 1px solid #8b53ff;
   border-radius: 0px;
   margin-left: 30px;
 }
 
 .likes {
-  border: 1px solid #8B53FF;
+  border: 1px solid #8b53ff;
   height: 36px;
   width: auto;
   display: flex;
@@ -532,7 +555,7 @@ export default {
   font-size: 25px;
   margin-left: 10px;
   margin-right: 10px;
-  color: #8B53FF;
+  color: #8b53ff;
   cursor: pointer;
 }
 
@@ -542,7 +565,7 @@ export default {
 
 .like-divider {
   height: 90%;
-  color: #8B53FF;
+  color: #8b53ff;
 }
 
 .likes span {
@@ -601,7 +624,7 @@ export default {
 }
 
 .share a:hover .v-icon {
-  color: #8B53FF;
+  color: #8b53ff;
 }
 
 .share a .v-icon {
@@ -669,7 +692,7 @@ export default {
     margin-top: 100px;
   }
 
-  .desc-layout{
+  .desc-layout {
     width: 100%;
   }
 
@@ -705,16 +728,16 @@ export default {
     width: 90%;
   }
 
-  .product-img{
+  .product-img {
     flex-direction: column-reverse;
   }
 
-  .product-overlay{
+  .product-overlay {
     width: 100%;
     height: 350px;
   }
 
-  .sub-img{
+  .sub-img {
     flex-direction: row;
     justify-content: space-between;
     margin-top: 15px;
@@ -724,15 +747,15 @@ export default {
     overflow-x: scroll;
   }
 
-  .sub-img div{
+  .sub-img div {
     margin-bottom: 0px;
   }
 
-  .product-desc{
+  .product-desc {
     margin-left: 0px;
   }
 
-  .tab-container{
+  .tab-container {
     width: 100%;
   }
 }

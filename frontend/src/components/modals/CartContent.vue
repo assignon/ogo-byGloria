@@ -26,10 +26,7 @@
             style="width:10%;margin-left: 30px;"
           ></v-divider>
         </div>
-        <div
-          @click="closeCart()"
-          class="close-cart"
-        >
+        <div @click="closeCart()" class="close-cart">
           <v-icon small>fas fa-times</v-icon>
         </div>
       </v-flex>
@@ -42,7 +39,7 @@
         >
           <div
             class="cart-content animated fadeInUp"
-            :style="{animationDelay: i/5+'s'}"
+            :style="{ animationDelay: i / 5 + 's' }"
           >
             <div class="img-name">
               <div class="tables" style="width: 15%;">
@@ -68,17 +65,16 @@
             </div>
             <div class="tables" style="width: 20%;">
               <ProductQtyCtrl
-                :productQty="product.fields.quantity"
-                @updateProductQty="updateQty(product.fields.price, product.pk)"
+                      :productQty="product.fields.quantity"
+                      @updateProductQty="updateQty(product.fields.price, product.pk)"
               />
             </div>
-            <div
-              class="tables mr-5"
-              style="justify-content: flex-end;"
-            >
+            <div class="tables mr-5" style="justify-content: flex-end;">
               <p class="qty-price font-weight-bold mt-5">
                 <span>€</span>
-                <span :id="product.pk">{{product.fields.price * product.fields.quantity }}</span>
+                <span :id="product.pk">{{
+                  product.fields.price * product.fields.quantity
+                }}</span>
               </p>
             </div>
             <div
@@ -90,7 +86,8 @@
               <v-icon class="del-product" small>fas fa-times</v-icon>
             </div>
           </div>
-          <v-divider :style="{ animationDelay: `${i * 250}` }"
+          <v-divider
+            :style="{ animationDelay: `${i * 250}` }"
             style="width:80%"
             color="#eee"
             class="mt-3 mb-3 animated fadeInUp"
@@ -137,10 +134,7 @@
             style="width:10%;margin-left: 30px;"
           ></v-divider>
         </div>
-        <div
-          @click="closeCart()"
-          class="close-cart"
-        >
+        <div @click="closeCart()" class="close-cart">
           <v-icon small>fas fa-times</v-icon>
         </div>
       </v-flex>
@@ -185,12 +179,10 @@ export default {
     }
   },
 
-  created() {
-
-  },
+  created() {},
 
   mounted() {
-    this.mobileCartLen()
+    this.mobileCartLen();
   },
 
   methods: {
@@ -198,7 +190,8 @@ export default {
       let self = this;
       let product = event.currentTarget.parentNode.parentNode;
       let productId = event.currentTarget.id;
-      let produtPrice = event.currentTarget.parentNode.childNodes[4].childNodes[0].textContent; //return the prive with €
+      let produtPrice =
+        event.currentTarget.parentNode.childNodes[4].childNodes[0].textContent; //return the prive with €
       let getPrice = produtPrice.slice(1, produtPrice.length); //return the price without €
       let totalPrice = document.querySelector(".total-price");
       let productstotalPrice = document.querySelector(".products-total-price");
@@ -206,8 +199,9 @@ export default {
 
       product.classList.add("bounceOutLeft");
       totalPrice.classList.add("rubberBand");
+      alert(qtyPrice)
       // productstotalPrice.textContent = parseInt(productstotalPrice.textContent) - parseInt(qtyPrice)
-      this.$store.state.productTotal -= parseInt(qtyPrice)
+      this.$store.state.productTotal -= parseInt(qtyPrice);
 
       setTimeout(function() {
         product.style.display = "none";
@@ -224,17 +218,19 @@ export default {
         .get(`${this.$store.state.HOST}/api/cart/remove_to_cart/`, {
           params: {
             productId: productId,
-            userId: (this.$session.get('auth')) ? this.$session.get('userId') : this.$session.get("shoppingSession")
+            userId: this.$session.get("auth")
+              ? this.$session.get("userId")
+              : this.$session.get("shoppingSession")
           }
         })
         .then(response => {
-          self.$store.state.productTotal = response.data.total
+          self.$store.state.productTotal = response.data.total;
           self.$store.state.numberOfProduct -= 1;
-          if(this.$store.state.numberOfProduct == 0){
-            this.$store.state.productQtyValue = 1
+          if (this.$store.state.numberOfProduct == 0) {
+            this.$store.state.productQtyValue = 1;
           }
 
-          this.cartCount = response.data.count
+          this.cartCount = response.data.count;
           console.log(response.data);
         })
         .catch(error => {
@@ -244,16 +240,22 @@ export default {
 
     //update product qty in db
     updateQty(price, id) {
-      let qty = parseInt(event.currentTarget.parentNode.childNodes[1].textContent);
+      let qty = parseInt(
+        event.currentTarget.parentNode.childNodes[1].textContent
+      );
+      let updatedQty
       let qtyPrice = document.getElementById(id);
       let totalPrice = document.querySelector(".products-total-price"); // get current total price html element
-      let userid = (this.$session.get("auth")) ? this.$session.get("userId") : this.$session.get("shoppingSession");
+      let userid = this.$session.get("auth")
+        ? this.$session.get("userId")
+        : this.$session.get("shoppingSession");
 
       if (event.currentTarget.id == "plus") {
-        qty += 1;
-        qtyPrice.textContent = qty * price;
+        updatedQty = qty+1
+        event.currentTarget.parentNode.childNodes[1].innerHTML = qty + 1
+        qtyPrice.innerHTML = updatedQty * price;
         // totalPrice.textContent = parseInt(totalPrice.textContent) + price;
-        this.$store.state.productTotal += price
+        this.$store.state.productTotal += price;
         this.$store.commit("updateCart", {
           newQty: qty,
           productId: id,
@@ -261,10 +263,11 @@ export default {
         });
       } else {
         if (qty > 1) {
-          qty--;
-          qtyPrice.textContent = qty * price;
+          updatedQty = qty-1
+          event.currentTarget.parentNode.childNodes[1].innerHTML = qty - 1
+          qtyPrice.textContent = updatedQty * price;
           // totalPrice.textContent = parseInt(totalPrice.textContent) - price;
-          this.$store.state.productTotal += price
+          this.$store.state.productTotal -= price;
           this.$store.commit("updateCart", {
             newQty: qty,
             productId: id,
@@ -274,18 +277,18 @@ export default {
       }
     },
 
-    mobileCartLen(){
-      let windowLen = window.outerWidth
-      if(windowLen < 800){
-        this.cartLen = "100%"
+    mobileCartLen() {
+      let windowLen = window.outerWidth;
+      if (windowLen < 800) {
+        this.cartLen = "100%";
       }
     },
 
-    closeCart(){
-      this.$store.state.cartDrawer = false
-      this.cartcontent.length = 0
-      console.log(this.cartcontent.length)
-      this.$store.state.productSum.length = 0
+    closeCart() {
+      this.$store.state.cartDrawer = false;
+      this.cartcontent.length = 0;
+      console.log(this.cartcontent.length);
+      this.$store.state.productSum.length = 0;
     }
   }
 };
@@ -494,31 +497,31 @@ export default {
     overflow-x: hidden;
   }
 
-  .cart-drawer{
+  .cart-drawer {
     width: 100%;
   }
 
-  .close-cart{
+  .close-cart {
     right: 110px;
     top: 1px;
   }
 
-  .cart-content-flex{
+  .cart-content-flex {
     width: 90%;
     border: 1px solid blue;
   }
 
-  .img-name{
+  .img-name {
     width: 20%;
     border: 1px solid red;
   }
 
-  .product-img{
+  .product-img {
     width: 70px;
     height: 50px;
   }
 
-  .tables{
+  .tables {
     width: 10%;
     border: 1px solid yellow;
   }
