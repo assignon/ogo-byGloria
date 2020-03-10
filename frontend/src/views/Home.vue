@@ -30,9 +30,9 @@
       productPrice = product.fields.product_price
     /> -->
 
-    <v-layout row wrap justify-center align-center class="product-container">
+    <v-layout row wrap class="product-container">
       <v-flex
-        xs12
+        xs6
         sm6
         md3
         lg3
@@ -185,6 +185,28 @@ export default {
   margin-left: 50px;
   margin-bottom: 50px;
 }
+
+/*.product-container {*/
+/*    width: 90%;*/
+/*    height: auto;*/
+/*  border: 1px solid red;*/
+/*    !*margin-top: 40px;*!*/
+/*}*/
+
+/* .product-flex {*/
+/*    width: 1275px;*/
+/*    height: 350px;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    padding-left: 20px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.product-flex:first-child {*/
+/*    padding-left: 0px;*/
+
+/*}*/
 
 /* responsive style */
 

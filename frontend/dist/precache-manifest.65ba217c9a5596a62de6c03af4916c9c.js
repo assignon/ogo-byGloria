@@ -8,12 +8,12 @@ self.__precacheManifest = [
     "url": "/static/css/about.2ff1096f.css"
   },
   {
-    "revision": "42e5fd493434c2748eef",
-    "url": "/static/css/app.744e7e29.css"
+    "revision": "059185adce4717ffb4c5",
+    "url": "/static/css/app.e23c95e9.css"
   },
   {
-    "revision": "42e5fd493434c2748eef",
-    "url": "/static/js/app.98a6d4cf.js"
+    "revision": "059185adce4717ffb4c5",
+    "url": "/static/js/app.711fa775.js"
   },
   {
     "revision": "1e41bae1a828a327d6a2",
@@ -56,12 +56,12 @@ self.__precacheManifest = [
     "url": "/static/fonts/fa-solid-900.657a4694.woff"
   },
   {
-    "revision": "f2e186cfab4787d4ef6f1bb192aa9a1b",
-    "url": "/static/fonts/fa-brands-400.f2e186cf.ttf"
-  },
-  {
     "revision": "3165b14bbf3b64fca65829ecde6b800d",
     "url": "/static/fonts/fa-brands-400.3165b14b.eot"
+  },
+  {
+    "revision": "f2e186cfab4787d4ef6f1bb192aa9a1b",
+    "url": "/static/fonts/fa-brands-400.f2e186cf.ttf"
   },
   {
     "revision": "2fad4ee0a47f41bc76e21c2baf613182",
@@ -136,7 +136,7 @@ self.__precacheManifest = [
     "url": "/robots.txt"
   },
   {
-    "revision": "5301077397974bdf7b2075f1d4c7430e",
+    "revision": "6069e1c6e8f8038cfed38d01366b81c9",
     "url": "/index.html"
   }
 ];

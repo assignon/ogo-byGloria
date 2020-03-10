@@ -3,6 +3,8 @@
     width: 90%;
     height: auto;
     margin-top: 40px;
+    justify-content: center;
+    align-items: center;
 }
 
  .product-flex {
@@ -20,6 +22,7 @@
 
 }
 
+
 @media only screen and (max-width: 500px){
 
     .product-flex {
@@ -34,7 +37,16 @@
 }
 
 @media only screen and (max-width: 800px) {
+    .product-container{
+        margin-top: 10px;
+        width: 100%;
+        justify-content: start;
+        align-items: start;
+    }
+
      .product-flex{
-         margin-bottom: 20px;
+         height: auto;
+         justify-content: space-between;
+         align-items: flex-end;
      }
 }

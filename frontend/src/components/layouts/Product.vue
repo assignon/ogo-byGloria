@@ -102,8 +102,15 @@
         }}</span>
       </v-tooltip>
     </div>
-    <p class="mt-2">{{ productName }}</p>
-    <p class="font-weight-bold">{{ productPrice }},00€</p>
+    <div class="name-price-add">
+      <div class="name-price">
+        <p class="mt-2 product-name">{{ productName }}</p>
+        <p class="font-weight-bold">{{ productPrice }},00€</p>
+      </div>
+      <div class="mobile-add-cart hidden-md-and-up animated" @click.stop="addtoCart(productName + '-' + productId)">
+        <v-icon small color="#fff">fas fa-cart-plus</v-icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -139,6 +146,7 @@ export default {
 
   mounted() {
     this.$store.commit("getUserId", this.$session);
+    // this.prodductNameAutoAjusting()
   },
 
   methods: {
@@ -223,6 +231,23 @@ export default {
         //   socials[i].style.display = 'none'
         // }, 500)
       }
+    },
+
+    // ajust product name who are too long
+    prodductNameAutoAjusting(){
+      let productName = document.querySelectorAll('.product-name')
+      for (let i = 0; i < productName.length; i++) {
+        let prodNameLen = productName[i].textContent.length
+        if(prodNameLen >= 17){
+          console.log(productName[i].offsetHeight)
+          let elemHeight = productName[i].offsetHeight
+          productName[i].parentNode.parentNode.parentNode.style.position = 'relative'
+          productName[i].parentNode.parentNode.parentNode.style.top = (elemHeight/2)-12+"px"
+          // productName[i].style.height = "30px"
+          // productName[i].parentNode.childNodes[1].style.position = "relative"
+          // productName[i].parentNode.childNodes[1].style.top = "15px"
+        }
+      }
     }
   }
 };
@@ -236,6 +261,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  /*margin-left: 10px;*/
+  /*margin-right: 10px;*/
 }
 
 .product .product-src {
@@ -314,6 +341,36 @@ export default {
   text-align: center;
 }
 
+.name-price-add {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.name-price{
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.mobile-add-cart{
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  border: 1px solid #8b53ff;
+  padding: 7px;
+  background-color: #8b53ff;
+}
+
 .product p {
   font-size: 16px;
   text-align: left;
@@ -328,7 +385,25 @@ export default {
 
 @media only screen and (max-width: 500px) {
   .product {
-    width: 95%;
+    width: 100%;
+    align-items: center;
+  }
+
+  .product .product-src{
+    height: 150px;
+  }
+
+  .product .product-src{
+    width: 93%;
+    /*height: 160px;*/
+  }
+
+  .name-price-add{
+    width: 93%;
+  }
+
+  .product p{
+    width: auto;
   }
 }
 </style>

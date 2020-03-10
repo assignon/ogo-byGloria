@@ -42,7 +42,7 @@
             :style="{ animationDelay: i / 5 + 's' }"
           >
             <div class="img-name">
-              <div class="tables" style="width: 15%;">
+              <div class="tables imgname-table" style="">
                 <div
                   :style="{
                     backgroundImage: `url(${$store.state.MEDIA_ROOT}/${
@@ -58,12 +58,12 @@
                 </p>
               </div>
             </div>
-            <div class="tables" style="width: 10%;">
+            <div class="tables price-table" style="">
               <p class="mt-5 font-weight-bold" style="">
                 €{{ product.fields.price }}
               </p>
             </div>
-            <div class="tables" style="width: 20%;">
+            <div class="tables qty-table" style="">
               <ProductQtyCtrl
                       :productQty="product.fields.quantity"
                       @updateProductQty="updateQty(product.fields.price, product.pk)"
@@ -80,7 +80,7 @@
             <div
               :id="product.pk"
               @click="delProduct(product.pk)"
-              class="tables"
+              class="tables del-table"
               style="width: 10%;"
             >
               <v-icon class="del-product" small>fas fa-times</v-icon>
@@ -108,7 +108,7 @@
         <router-link class="" style="text-decoration: none;" to="/order/1">
           <v-btn
             @click="closeCart()"
-            color="#FFCC80"
+            color="#814DED"
             depressed
             height="40"
             medium
@@ -140,6 +140,7 @@
       </v-flex>
 
       <div class="cart-empty">
+        <v-icon color="#B39DDB">fas fa-shopping-basket</v-icon>
         <h3 class="font-weight-bold animated fadeInUp">
           Votre panier est vide pour l'instant
         </h3>
@@ -199,7 +200,6 @@ export default {
 
       product.classList.add("bounceOutLeft");
       totalPrice.classList.add("rubberBand");
-      alert(qtyPrice)
       // productstotalPrice.textContent = parseInt(productstotalPrice.textContent) - parseInt(qtyPrice)
       this.$store.state.productTotal -= parseInt(qtyPrice);
 
@@ -456,6 +456,18 @@ export default {
   color: red;
 }
 
+.imgname-table{
+  width: 15%;
+}
+
+.price-table{
+  width: 10%;
+}
+
+.qty-table{
+  width: 20%;
+}
+
 .total-flex h3 {
   /* color: #FFA726; */
 }
@@ -482,12 +494,16 @@ export default {
 
 .cart-empty {
   width: 100%;
-  height: auto;
+  height: 600px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.cart-empty .v-icon{
+  font-size: 100px;
 }
 
 @media only screen and (max-width: 500px) {
@@ -508,23 +524,50 @@ export default {
 
   .cart-content-flex {
     width: 90%;
-    border: 1px solid blue;
   }
 
-  .img-name {
-    width: 20%;
-    border: 1px solid red;
+  .img-name{
+    width: auto;
+    height: auto;
+    justify-content: flex-end;
+    position: relative;
+    left: 60px;
   }
 
-  .product-img {
-    width: 70px;
+  .imgname-table{
+    width: 50px;
     height: 50px;
   }
 
-  .tables {
-    width: 10%;
-    border: 1px solid yellow;
+  .product-img {
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    border: 1px solid black;
   }
+
+  .price-table, .qty-table{
+    position: relative;
+    left: 45px;
+  }
+
+  .del-table{
+    position: relative;
+    right: 5px;
+  }
+
+  .price-table, .qty-table {
+    width: 10%;
+  }
+
+  .qty-table{
+    margin-left: -10px;
+  }
+
+  .total-flex, .cart-footer-flex{
+    width: 60%;
+  }
+
 
   /*.img-name {*/
   /*  flex-direction: column;*/

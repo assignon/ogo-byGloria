@@ -207,7 +207,7 @@
     >
       <v-flex xs9 md9 class="burgermenu-flex">
         <v-icon
-          @click.stop="drawer = !drawer"
+          @click.stop="drawer = !drawer, animateMeuItems()"
           class=""
           style="color: #333333;margin-left:20px;"
           medium
@@ -215,7 +215,7 @@
         >
         <h2
           class="ml-3 font-weight-bold"
-          style="color: #FB8C00;font-style: italic;"
+          style="color:rgb(139,83,255);font-style: italic;"
         >
           Ogo By Gloria
         </h2>
@@ -227,7 +227,7 @@
           style="margin-left: 0px;"
           @click.stop="showCart()"
         >
-          <v-badge overlap color="#FFA726" class="shopping-badge">
+          <v-badge overlap color="#7E57C2" class="shopping-badge">
             <template v-slot:badge>{{ $store.state.numberOfProduct }}</template>
             <v-icon large style="color: #8B53FF;"
               >fas fa-shopping-basket</v-icon
@@ -247,14 +247,14 @@
     >
       <div class="mobile-menu-flex mt-5" style="">
         <router-link to="/" style="text-decoration: none;">
-          <div class="mobile-menu-item" syle="position: relative; left:-10px;">
+          <div class="mobile-menu-item animated" syle="position: relative; left:-10px;">
             <span class="ml-1 mt-1">Accueille</span>
             <v-icon medium style="" class="">home</v-icon>
           </div>
         </router-link>
 
         <router-link to="/bag" style="text-decoration: none;">
-          <div class="mobile-menu-item">
+          <div class="mobile-menu-item animated">
             <span>Sacs</span>
             <v-icon style="font-size: 20px;" class=""
               >fas fa-shopping-bag</v-icon
@@ -263,14 +263,14 @@
         </router-link>
 
         <router-link to="/accessory" style="text-decoration: none;">
-          <div class="mobile-menu-item">
+          <div class="mobile-menu-item animated">
             <span>Accessoires</span>
             <v-icon style="font-size: 20px;" class=""></v-icon>
           </div>
         </router-link>
 
         <router-link to="/about" style="text-decoration: none;">
-          <div class="mobile-menu-item">
+          <div class="mobile-menu-item animated">
             <span>A propos</span>
             <v-icon style="font-size: 20px;" class=""
               >fas fa-address-card</v-icon
@@ -279,7 +279,7 @@
         </router-link>
 
         <router-link to="/contact" style="text-decoration: none;">
-          <div class="mobile-menu-item">
+          <div class="mobile-menu-item animated">
             <span>Contact</span>
             <v-icon style="font-size: 20px;" class="">fas fa-envelope</v-icon>
           </div>
@@ -341,6 +341,18 @@ export default {
   },
 
   methods: {
+    animateMeuItems(){
+      let menuItems = document.querySelectorAll('.mobile-menu-item')
+      for (let i = 0; i < menuItems.length; i++) {
+        menuItems[i].classList.add("slideInLeft")
+        menuItems[i].style.animationDuration = '0.5s'
+        menuItems[i].style.animationDelay = `${i/4}s`
+        setTimeout(function(){
+          menuItems[i].classList.remove("slideInLeft")
+        }, 1800)
+      }
+    },
+
     menuScrollAnimation() {
       let scrollValue = document.documentElement.scrollTop;
       let scrollNavLayout = document.querySelector(".scroll-nav-layout");

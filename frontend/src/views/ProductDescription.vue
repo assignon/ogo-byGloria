@@ -236,8 +236,8 @@
             class="product-container"
           >
             <v-flex
-              xs10
-              sm10
+              xs6
+              sm6
               md3
               lg3
               class="product-flex animated zoomIn"
@@ -687,6 +687,11 @@ export default {
   height: auto;
 }
 
+.product-container{
+  margin: auto;
+  /*margin-top: 0px;*/
+}
+
 @media only screen and (max-width: 800px) {
   .description-core {
     margin-top: 100px;
@@ -757,6 +762,10 @@ export default {
 
   .tab-container {
     width: 100%;
+  }
+
+  .product-flex{
+    margin-bottom: 15px;
   }
 }
 

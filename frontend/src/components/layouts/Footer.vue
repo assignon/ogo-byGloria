@@ -3,7 +3,7 @@
     <v-layout justify-space-around align-start row wrap class="footer-layout">
       <v-flex xs12 sm12 md4 lg4 class="contact-flex">
         <h3>Contact</h3>
-        <p><v-icon>fas fa-at</v-icon> gervelly@hotmail.fr</p>
+        <p><v-icon>fas fa-at</v-icon>ogoby.gloria@hotmail.com</p>
         <p><v-icon>fas fa-phone-alt</v-icon> +33-752951451</p>
       </v-flex>
 
