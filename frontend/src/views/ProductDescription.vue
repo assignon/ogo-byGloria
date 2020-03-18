@@ -19,7 +19,7 @@
             class="product-overlay animated zoomIn"
             :style="{
               backgroundImage: `url(${
-                $store.state.viewedProduct.product_image
+                $store.state.viewedProduct.product_imagef
               })`
             }"
           ></div>
@@ -154,11 +154,12 @@
           >
             <v-textarea
               class="mx-2"
-              label="Laiser un commentaire..."
+              label="Laissez un commentaire"
               rows="5"
               prepend-icon="comment"
               color="#8B53FF"
               flat
+              v-model="commentFieldValue"
               style="line-height: 22px;"
             />
             <div
@@ -167,9 +168,8 @@
               <p
                 class="comment-error"
                 :style="{ opacity: `${sended}` }"
-                v-model="commentFieldValue"
               >
-                {{ commentErrMsg }}
+                {{ commentMsg }}
               </p>
               <v-btn
                 depressed
@@ -279,9 +279,10 @@ export default {
       productQty: 1,
       active: null,
       sended: 0, //display comment field error if it sended
-      commentErrMsg: "",
+      commentMsg: "",
       commentFieldValue: "",
-      thumbmailsArr: new Array()
+      thumbmailsArr: new Array(),
+      commentsArr: new Array()
     };
   },
 
@@ -314,7 +315,7 @@ export default {
 
     addtoCart() {
       if (this.$session.get("auth")) {
-        $store.commit("addToCart", {
+        this.$store.commit("addToCart", {
           productId: this.$route.params.id,
           quantity: this.$store.state.productQtyValue,
           userId: this.$sssion.get("userId")
@@ -351,14 +352,16 @@ export default {
         this.$store.commit("addComment", {
           productId: this.$route.params.id.split("-")[1],
           userId: this.$store.state.getuserId,
-          comment: this.commentFieldValue
+          comment: this.commentFieldValue,
+          arr: this.commentsArr
         });
-        $store.commit("showModal", {
-          modalId: "notificationModal",
-          top: "70px"
-        });
+        // this.$store.commit("showModal", {
+        //   modalId: "notificationModal",
+        //   top: "70px"
+        // });
       } else {
-        this.commentErrMsg;
+        this.sended = 1
+        this.commentMsg = "Le champ est vide";
       }
     }
   }
@@ -667,6 +670,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  border: 1px solid green;
 }
 
 .related-product-flex {

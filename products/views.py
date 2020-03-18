@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate, get_user_model
+# from django.contrib.auth import login, authenticate, get_user_model
 from django.conf import settings
 # from django.contrib.auth.views import logout
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from django.utils.translation import ugettext as _
+# from django.contrib import messages
+# from django.contrib.auth.decorators import login_required
+# from django.urls import reverse
+# from django.utils.translation import ugettext as _
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.core import serializers
@@ -27,7 +27,7 @@ from rest_framework.status import (
 )
 
 from .serializers import Product_serializer
-from products.models import Product, Product_imgs, Like
+from products.models import Product, Product_imgs, Like, Comment
 # Create your views here.
 
 class Product_view(viewsets.ModelViewSet):
@@ -118,14 +118,19 @@ class Product_view(viewsets.ModelViewSet):
         get_prod_like = Product.objects.get(id=product_id).likes
         return Response(get_prod_like)
 
+    @csrf_exempt
+    @action(methods=['post'], detail=False)
+    def add_comment(self, request):
+        product_id = request.data['body']['productId']
+        user_id = request.data['body']['userId']
+        comment = request.data['body']['comment']
+        Comment.add(user_id, comment, product_id)
+        return Response("comment added")
 
-# def all_product(request):
-#     pass
-
-
-def get_product(request):
-    pass
-
-
-def product_liked(request):
-    pass
+    @csrf_exempt
+    @action(methods=['get'], detail=False)
+    def get_comment(self, request):
+        product_id = request.query_params.get('productId')
+        comment = Comment.get(product_id)
+        data = serializers.serialize('json', comment)
+        return Response(json.loads(data))

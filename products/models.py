@@ -55,3 +55,10 @@ class Comment(models.Model):
     comment = models.TextField()
     posted_on = models.DateTimeField(auto_now_add=True)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def add(self, userid, comment, productid):
+        self.objects.create(user_id=userid, comment=comment, product_id=productid)
+
+    def get(self, productid):
+        comments = self.objects.filter(product_id=productid)
+        return comments
