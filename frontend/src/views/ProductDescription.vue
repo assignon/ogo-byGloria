@@ -19,7 +19,7 @@
             class="product-overlay animated zoomIn"
             :style="{
               backgroundImage: `url(${
-                $store.state.viewedProduct.product_imagef
+                $store.state.viewedProduct.product_image
               })`
             }"
           ></div>
