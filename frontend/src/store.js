@@ -53,7 +53,7 @@ export default new Vuex.Store({
     AUTHENTICATED: undefined,
     userId: undefined,
     shoppingId: undefined, //temporary id when user is not logged and destroy when the user logged of purchase
-    getuserId: '',
+    getuserId: "",
     allProducts: [],
     viewedProduct: undefined,
     relatedProduct: [],
@@ -63,7 +63,8 @@ export default new Vuex.Store({
     productSum: [], // store the multiplication of the product price en qty
     productTotal: 0, // sum of all product in the cart
     thumbmailsArr: [],
-    likes: null
+    likes: null,
+    commentsArr: []
   },
 
   mutations: {
@@ -79,14 +80,14 @@ export default new Vuex.Store({
         });
     },
 
-    getUserId(state, session){
-      let userId
+    getUserId(state, session) {
+      let userId;
       if (session.get("auth")) {
         userId = session.get("userId");
       } else {
         userId = session.get("shoppingSession");
       }
-      state.getuserId = userId
+      state.getuserId = userId;
     },
 
     storeproducts(state, data) {
@@ -278,12 +279,12 @@ export default new Vuex.Store({
           }
         })
         .then(response => {
-          if (response.data.liked){
+          if (response.data.liked) {
             //already likes
-            console.log(response.data)
-          }else{
-            state.likes = response.data.likes
-            state.viewedProduct.likes = response.data.likes
+            console.log(response.data);
+          } else {
+            state.likes = response.data.likes;
+            state.viewedProduct.likes = response.data.likes;
           }
         })
         .catch(error => {
@@ -296,11 +297,11 @@ export default new Vuex.Store({
       axios
         .get(`${state.HOST}/api/product/get_likes/`, {
           params: {
-            productId: productId,
+            productId: productId
           }
         })
         .then(response => {
-          state.likes = response.data
+          state.likes = response.data;
           // console.log(response)
         })
         .catch(error => {
@@ -308,26 +309,49 @@ export default new Vuex.Store({
         });
     },
 
-    addComment(state, params){
+    addComment(state, params) {
       axios
         .post(`${state.HOST}/api/product/add_comment/`, {
           params: {
-             productId: params.productId,
+            productId: params.productId,
             userId: params.userId,
             comment: params.comment
           }
         })
         .then(response => {
-          console.log(response)
-          params.arr.length > 0 ? params.arr.push(response.data) : params.arr = []
+          console.log(response);
+          // params.arr.length > 0 ? params.arr.push(response.data) : params.arr = []
         })
         .catch(error => {
           console.log(error);
         });
     },
 
-    getComments(state){
+    getComments(state, params) {
+      axios
+        .get(`${state.HOST}/api/product/get_comment/`, {
+          params: {
+            productId: params.productId
+          }
+        })
+        .then(response => {
+          console.log("data: ", response.data);
+          if (state.commentsArr.length == 0) {
+            response.data.forEach( item => {
+              state.commentsArr.push(item);
+            })
+          } else {
+            state.commentsArr.length = 0;
+            response.data.forEach( item => {
+              state.commentsArr.push(item);
+            })
+          }
 
+          console.log(state.commentsArr);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     showModal(state, param) {

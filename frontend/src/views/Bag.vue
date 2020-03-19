@@ -100,7 +100,7 @@ export default {
 
 @media only screen and (max-width: 800px) {
   .bag-core {
-    margin-top: 50px;
+    margin-top: 100px;
   }
 
   .product-flex{

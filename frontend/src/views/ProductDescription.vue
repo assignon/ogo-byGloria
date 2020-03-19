@@ -165,10 +165,7 @@
             <div
               style="display:flex; justify-content: space-between; align-items: flex-start; width:100%;height:auto;"
             >
-              <p
-                class="comment-error"
-                :style="{ opacity: `${sended}` }"
-              >
+              <p class="comment-error" :style="{ opacity: `${sended}` }">
                 {{ commentMsg }}
               </p>
               <v-btn
@@ -190,7 +187,22 @@
                 class="mt-5 comment-divider"
               ></div>
             </div>
-            <div class="comments mt-5"></div>
+            <div class="comments mt-5">
+              <div
+                class="comment-container"
+                v-for="(comment, i) in $store.state.commentsArr"
+              >
+                <div class="user-icon"></div>
+                <div class="comment-content">
+                  <div class="name-date">
+                    <p>userName</p>
+                    <span>{{ comment.fields.posted_on }}</span>
+                  </div>
+                  <p class="content">{{ comment.fields.comment }}</p>
+                </div>
+<!--                <div class="divider"></div>-->
+              </div>
+            </div>
           </v-tab-item>
 
           <v-tab-item
@@ -226,7 +238,7 @@
         v-if="this.$store.state.relatedProduct.length != 0"
       >
         <h4 class="font-weight-bold">VOUS AIMEREZ AUSSI</h4>
-        <v-divider style="width: 10%;" class="related-divider"></v-divider>
+        <v-divider style="width: 10%;" class="related-divider mb-5"></v-divider>
         <div class="related-product">
           <v-layout
             row
@@ -281,21 +293,18 @@ export default {
       sended: 0, //display comment field error if it sended
       commentMsg: "",
       commentFieldValue: "",
-      thumbmailsArr: new Array(),
-      commentsArr: new Array()
+      thumbmailsArr: new Array()
     };
   },
 
   created() {
     this.$store.commit("productDescription", this.$route.params.id);
     this.$store.commit("relatedProduct", this.$route.params.id);
-    console.log(this.$store.state.relatedProduct.length);
-    // alert(this.$store.state.MEDIA_ROOT)
   },
 
   mounted() {
     this.$store.commit("showMenus");
-    console.log(this.thumbmailsArr);
+    this.$store.commit("getUserId", this.$session);
   },
 
   methods: {
@@ -349,18 +358,30 @@ export default {
 
     addComment() {
       if (this.commentFieldValue != "") {
-        this.$store.commit("addComment", {
-          productId: this.$route.params.id.split("-")[1],
-          userId: this.$store.state.getuserId,
-          comment: this.commentFieldValue,
-          arr: this.commentsArr
-        });
+        // console.log(this.$session.has('shoppingSession'))
+        if (
+          this.$session.has("shoppingSession") ||
+          this.$session.has("userId")
+        ) {
+          this.$store.commit("addComment", {
+            productId: this.$route.params.id.split("-")[1],
+            userId: this.$store.state.getuserId,
+            comment: this.commentFieldValue,
+            arr: this.commentsArr
+          })
+          this.commentFieldValue = ""
+        } else {
+          this.sended = 1;
+          this.commentMsg =
+            "creer un compte ou achete le produit que vous voulez commenter";
+          this.commentFieldValue = ""
+        }
         // this.$store.commit("showModal", {
         //   modalId: "notificationModal",
         //   top: "70px"
         // });
       } else {
-        this.sended = 1
+        this.sended = 1;
         this.commentMsg = "Le champ est vide";
       }
     }
@@ -670,7 +691,73 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  border: 1px solid green;
+}
+
+.comment-container {
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: auto;
+  margin-bottom: 30px;
+}
+
+.user-icon {
+  width: 70px;
+  height: 70px;
+  background-color: #8b53ff;
+}
+
+.comment-content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.name-date {
+  width: 70%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.name-date p {
+  text-align: left;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 0px;
+  padding: 0px;
+}
+
+.name-date span {
+  font-size: 13px;
+  text-align: left;
+  color: grey;
+  margin: 0px;
+  padding: 0px;
+  margin-left: 5px;
+}
+
+.content {
+  text-align: left;
+  font-size: 17px;
+  width: 85%;
+  height: auto;
+  margin-left: 10px;
+}
+
+.divider{
+  width: 80%;
+  height: auto;
+  border: 1px solid #EEEEEE;
 }
 
 .related-product-flex {
@@ -691,7 +778,7 @@ export default {
   height: auto;
 }
 
-.product-container{
+.product-container {
   margin: auto;
   /*margin-top: 0px;*/
 }
@@ -768,8 +855,24 @@ export default {
     width: 100%;
   }
 
-  .product-flex{
+  .product-flex {
     margin-bottom: 15px;
+  }
+
+  .comment-container{
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .content{
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .name-date{
+    width: 100%;
+    margin-left: 0px;
+    margin-top: 10px;
   }
 }
 

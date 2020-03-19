@@ -120,17 +120,18 @@ class Product_view(viewsets.ModelViewSet):
 
     @csrf_exempt
     @action(methods=['post'], detail=False)
+    # @permission_classes((AllowAny,))
     def add_comment(self, request):
-        product_id = request.data['body']['productId']
-        user_id = request.data['body']['userId']
-        comment = request.data['body']['comment']
-        Comment.add(user_id, comment, product_id)
-        return Response("comment added")
+        product_id = request.data['params']['productId']
+        user_id = request.data['params']['userId']
+        comment = request.data['params']['comment']
+        post_comment = Comment.add(self, user_id, comment, product_id)
+        return Response(post_comment)
 
     @csrf_exempt
     @action(methods=['get'], detail=False)
     def get_comment(self, request):
         product_id = request.query_params.get('productId')
-        comment = Comment.get(product_id)
+        comment = Comment.get(self, product_id)
         data = serializers.serialize('json', comment)
         return Response(json.loads(data))

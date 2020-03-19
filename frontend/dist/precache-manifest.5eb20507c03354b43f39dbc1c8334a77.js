@@ -8,12 +8,12 @@ self.__precacheManifest = [
     "url": "/static/css/about.2ff1096f.css"
   },
   {
-    "revision": "059185adce4717ffb4c5",
-    "url": "/static/css/app.e23c95e9.css"
+    "revision": "bdd04075153ddd1d0009",
+    "url": "/static/css/app.25c80959.css"
   },
   {
-    "revision": "059185adce4717ffb4c5",
-    "url": "/static/js/app.711fa775.js"
+    "revision": "bdd04075153ddd1d0009",
+    "url": "/static/js/app.1ee3c298.js"
   },
   {
     "revision": "1e41bae1a828a327d6a2",
@@ -136,7 +136,7 @@ self.__precacheManifest = [
     "url": "/robots.txt"
   },
   {
-    "revision": "6069e1c6e8f8038cfed38d01366b81c9",
+    "revision": "4bf47a3c3dc286e32b44840284be4175",
     "url": "/index.html"
   }
 ];

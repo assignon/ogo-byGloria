@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 # Create your models here.
 
@@ -57,8 +58,16 @@ class Comment(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def add(self, userid, comment, productid):
-        self.objects.create(user_id=userid, comment=comment, product_id=productid)
+        product = Product.objects.get(id=productid)
+        comment_count = Comment.objects.filter(Q(user_id=userid) & Q(product_id=productid))
+        if comment_count.count() == 0:
+            Comment.objects.create(user_id=userid, comment=comment, product_id=product)
+            data = "Merci pour votre commentaire"
+        else:
+            data = "Vous avez commenter ce produit"
+        return data
 
     def get(self, productid):
-        comments = self.objects.filter(product_id=productid)
+        product = Product.objects.get(id=productid)
+        comments = Comment.objects.filter(product_id=product).order_by('-pk')
         return comments

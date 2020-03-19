@@ -12,7 +12,8 @@
           thumbmails(),
           $store.commit('productDescription', $route.params.id),
           $store.commit('relatedProduct', $route.params.id),
-          $store.commit('scrollTopAnimation')
+          $store.commit('scrollTopAnimation'),
+          getComment()
       "
     >
       <v-tooltip left color="#fff">
@@ -248,6 +249,13 @@ export default {
           // productName[i].parentNode.childNodes[1].style.top = "15px"
         }
       }
+    },
+
+    getComment() {
+      this.$store.commit("getComments", {
+        productId: this.$route.params.id.split("-")[1],
+      });
+      console.log(this.$store.state.commentsArr)
     }
   }
 };
