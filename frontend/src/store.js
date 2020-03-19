@@ -7,46 +7,46 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    HOST:
-      window.location.hostname != "127.0.0.1"
-        ? "http://localhost:8080"
-        : "https://yanick007.pythonanywhere.com",
-
-    MEDIA_ROOT:
-      window.location.hostname != "127.0.0.1"
-        ? "http://localhost:8080/media"
-        : "https://yanick007.pythonanywhere.com/media",
-
-    //facebook twitter etc...
-    SHARE_HOST:
-      window.location.hostname == "127.0.0.1"
-        ? "http://localhost:8080"
-        : "yanick007.pythonanywhere.com",
-
-    DOMAIN:
-      window.location.protocol +
-      "//" +
-      window.location.hostname +
-      ":" +
-      window.location.port,
-    //
     // HOST:
-    //   window.location.port != ""
-    //     ? window.location.protocol +
-    //       "//" +
-    //       window.location.hostname +
-    //       ":" +
-    //       window.location.port
-    //     : window.location.protocol + "//" + window.location.hostname,
+    //   window.location.hostname != "127.0.0.1"
+    //     ? "http://localhost:8080"
+    //     : "https://yanick007.pythonanywhere.com",
     //
     // MEDIA_ROOT:
-    //   window.location.port != ""
-    //     ? window.location.protocol +
-    //       "//" +
-    //       window.location.hostname +
-    //       ":" +
-    //       window.location.port + "/media"
-    //     : "https://ogo-bygloria-s3.s3.amazonaws.com/media",
+    //   window.location.hostname != "127.0.0.1"
+    //     ? "http://localhost:8080/media"
+    //     : "https://yanick007.pythonanywhere.com/media",
+    //
+    // //facebook twitter etc...
+    // SHARE_HOST:
+    //   window.location.hostname == "127.0.0.1"
+    //     ? "http://localhost:8080"
+    //     : "yanick007.pythonanywhere.com",
+
+    // DOMAIN:
+    //   window.location.protocol +
+    //   "//" +
+    //   window.location.hostname +
+    //   ":" +
+    //   window.location.port,
+
+    HOST:
+      window.location.port != ""
+        ? window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          window.location.port
+        : window.location.protocol + "//" + window.location.hostname,
+
+    MEDIA_ROOT:
+      window.location.port != ""
+        ? window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          window.location.port + "/media"
+        : "https://ogo-bygloria-s3.s3.amazonaws.com/media",
 
     cartDrawer: false, //cart nav drawer ctrl
 
